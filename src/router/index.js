@@ -22,7 +22,7 @@ export default new Router({
   routes: [
     {
       path: "/",
-      component: () => import("../views/home.vue")
+      component: () => import("../views/index.vue")
     },
     ...defaultRouter
   ]

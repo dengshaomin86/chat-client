@@ -10,7 +10,8 @@
     height: 100%;
     padding: 0;
     margin: 0;
-    background-color: cadetblue;
+    background: rgba(29, 160, 155, 0.64) url("./assets/images/bg/3735.jpg") no-repeat center center;
+    background-size: cover;
   }
   #app {
     &:before, &:after {

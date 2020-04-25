@@ -6,6 +6,7 @@ import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import "@/assets/js/utils.js";
 import "@/assets/js/axios.js";
+import "@/assets/iconfont/iconfont.css";
 
 Vue.use(ElementUI);
 

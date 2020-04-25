@@ -1,0 +1,23 @@
+{
+  "id": "1780690",
+  "name": "chat-client",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "5327434",
+      "name": "登录",
+      "font_class": "denglu",
+      "unicode": "e6f0",
+      "unicode_decimal": 59120
+    },
+    {
+      "icon_id": "9810503",
+      "name": "注册有礼",
+      "font_class": "zhuceyouli",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    }
+  ]
+}

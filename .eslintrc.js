@@ -16,7 +16,8 @@ module.exports = {
     quotes: [1, "double"],
     semi: [2, "always"],
     "space-before-function-paren": 0,
-    "spaced-comment": [0, "never"]
+    "spaced-comment": [0, "never"],
+    indent: 0
   },
   globals: {
     axios: true

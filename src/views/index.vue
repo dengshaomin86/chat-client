@@ -1,16 +1,12 @@
 <template>
-  <div class="home">
-    <ul>
-      <li v-for="(item, idx) in list" :key="idx">
-        <router-link :to="item">{{item}}</router-link>
-      </li>
-    </ul>
+  <div>
+    <h1>index</h1>
   </div>
 </template>
 
 <script>
 export default {
-  name: "home",
+  name: "index",
   components: {},
   data() {
     return {
