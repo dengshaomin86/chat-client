@@ -15,7 +15,7 @@
             </div>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary">Next</el-button>
+            <el-button type="primary" @click="signInAction">Next</el-button>
           </el-form-item>
         </el-form>
       </template>
@@ -25,16 +25,16 @@
         <i class="iconfont icon-denglu" @click="type='signIn'"></i>
         <el-form ref="signUp" :model="signUp">
           <el-form-item>
-            <el-input v-model="signUp.username" placeholder="username" clearable maxLength="16"></el-input>
+            <el-input v-model="signUp.username" placeholder="username" clearable maxLength="16" title="username"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-input v-model="signUp.password" placeholder="password" clearable maxLength="16" type="password" show-password></el-input>
+            <el-input v-model="signUp.password" placeholder="password" clearable maxLength="16" title="password" type="password" show-password></el-input>
           </el-form-item>
           <el-form-item>
-            <el-input v-model="signUp.cfPassword" placeholder="password" clearable maxLength="16" type="password" show-password></el-input>
+            <el-input v-model="signUp.cfPassword" placeholder="password" clearable maxLength="16" title="confirm password" type="password" show-password></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary">Next</el-button>
+            <el-button type="primary" @click="signUpAction">Next</el-button>
           </el-form-item>
         </el-form>
       </template>
@@ -61,11 +61,36 @@
     },
     methods: {
       init() {
-      }
+      },
+      signInAction() {
+        axios.post("/signIn", this.signIn).then(res => {
+          this.$message[res.data.flag?"success":"error"](res.data.message);
+          if (!res.data.flag) return;
+          this.$router.push("/");
+          Object.assign(this.$data.signIn, this.$options.data().signIn);
+        }).catch(err => {
+          console.log(err);
+        });
+      },
+      signUpAction() {
+        axios.post("/signUp", this.signUp).then(res => {
+          this.$message[res.data.flag?"success":"error"](res.data.message);
+          if (!res.data.flag) return;
+          this.type = "signIn";
+        }).catch(err => {
+          console.log(err);
+        });
+      },
     },
     created() {
     },
     mounted() {
+    },
+    watch: {
+      type() {
+        Object.assign(this.$data.signIn, this.$options.data().signIn);
+        Object.assign(this.$data.signUp, this.$options.data().signUp);
+      }
     }
   };
 </script>
