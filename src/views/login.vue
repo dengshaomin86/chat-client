@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="login-con" @keyup.enter="enter" tabindex="1">
     <div class="form-con">
       <template v-if="type==='signIn'">
         <p class="title">sign in</p>
@@ -63,8 +63,9 @@
       init() {
       },
       signInAction() {
+        if (!this.signIn.username) return;
         axios.post("/signIn", this.signIn).then(res => {
-          this.$message[res.data.flag?"success":"error"](res.data.message);
+          this.$message[res.data.flag ? "success" : "error"](res.data.message);
           if (!res.data.flag) return;
           this.$router.push("/");
           Object.assign(this.$data.signIn, this.$options.data().signIn);
@@ -73,14 +74,18 @@
         });
       },
       signUpAction() {
+        if (!this.signUp.username) return;
         axios.post("/signUp", this.signUp).then(res => {
-          this.$message[res.data.flag?"success":"error"](res.data.message);
+          this.$message[res.data.flag ? "success" : "error"](res.data.message);
           if (!res.data.flag) return;
           this.type = "signIn";
         }).catch(err => {
           console.log(err);
         });
       },
+      enter() {
+        this[`${this.type}Action`]();
+      }
     },
     created() {
     },
@@ -96,6 +101,15 @@
 </script>
 
 <style scoped lang="scss">
+  .login-con {
+    width: 100%;
+    height: 100%;
+    &:before, &:after {
+      display: table;
+      content: "";
+    }
+  }
+
   .form-con {
     width: 300px;
     margin: 200px auto 0;

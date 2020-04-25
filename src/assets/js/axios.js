@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "http://127.0.0.1:3000";
+axios.defaults.baseURL = process.env.NODE_ENV === "production" ? "http://139.9.50.13:3000" : "http://127.0.0.1:3000";
 
 axios.interceptors.request.use(config => {
   // 设置 content-type 防止 post 请求前发送 options 请求
