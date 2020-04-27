@@ -64,7 +64,7 @@
       },
       signInAction() {
         if (!this.signIn.username) return;
-        axios.post("/signIn", this.signIn).then(res => {
+        axios.post("/user/signIn", this.signIn).then(res => {
           this.$message[res.data.flag ? "success" : "error"](res.data.message);
           if (!res.data.flag) return;
           this.$router.push("/");
@@ -75,7 +75,7 @@
       },
       signUpAction() {
         if (!this.signUp.username) return;
-        axios.post("/signUp", this.signUp).then(res => {
+        axios.post("/user/signUp", this.signUp).then(res => {
           this.$message[res.data.flag ? "success" : "error"](res.data.message);
           if (!res.data.flag) return;
           this.type = "signIn";

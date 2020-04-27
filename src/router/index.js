@@ -16,6 +16,8 @@ const defaultRouter = context.keys().map(key => {
   };
 });
 
+console.log(document.cookie);
+
 export default new Router({
   mode: "history",
   base: process.env.BASE_URL,
