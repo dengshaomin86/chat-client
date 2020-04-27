@@ -18,7 +18,7 @@ const defaultRouter = context.keys().map(key => {
 
 console.log(document.cookie);
 
-export default new Router({
+const router = new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
@@ -29,3 +29,17 @@ export default new Router({
     ...defaultRouter
   ]
 });
+
+const pass = ["/login"];
+
+router.beforeEach((to, from, next) => {
+  const username = sessionStorage.getItem("username");
+  if (!username && !pass.includes(to.path)) {
+    next({
+      path: "/login"
+    });
+  }
+  next();
+});
+
+export default router;

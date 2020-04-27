@@ -68,6 +68,7 @@
           this.$message[res.data.flag ? "success" : "error"](res.data.message);
           if (!res.data.flag) return;
           this.$router.push("/");
+          sessionStorage.setItem("username", this.signIn.username);
           Object.assign(this.$data.signIn, this.$options.data().signIn);
         }).catch(err => {
           console.log(err);
