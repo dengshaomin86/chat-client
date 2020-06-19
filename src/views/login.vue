@@ -43,6 +43,8 @@
 </template>
 
 <script>
+  import qs from "qs";
+
   export default {
     name: "login",
     data() {
@@ -64,7 +66,8 @@
       },
       signInAction() {
         if (!this.signIn.username) return;
-        axios.post("/user/signIn", this.signIn).then(res => {
+        // 使用 qs 库编码数据，以 application / x-www-form-urlencoded 格式发送数据
+        axios.post("/user/signIn", qs.stringify(this.signIn)).then(res => {
           this.$message[res.data.flag ? "success" : "error"](res.data.message);
           if (!res.data.flag) return;
           this.$router.push("/");
@@ -76,7 +79,7 @@
       },
       signUpAction() {
         if (!this.signUp.username) return;
-        axios.post("/user/signUp", this.signUp).then(res => {
+        axios.post("/user/signUp", qs.stringify(this.signUp)).then(res => {
           this.$message[res.data.flag ? "success" : "error"](res.data.message);
           if (!res.data.flag) return;
           this.type = "signIn";
