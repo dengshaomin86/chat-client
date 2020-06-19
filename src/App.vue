@@ -13,6 +13,13 @@
     background: rgba(29, 160, 155, 0.64) url("./assets/images/bg/3735.jpg") no-repeat center center;
     background-size: cover;
   }
+  p {
+    padding: 0;
+    margin: 0;
+  }
+  * {
+    box-sizing: border-box;
+  }
   #app {
     &:before, &:after {
       display: table;

@@ -1,29 +1,54 @@
 <template>
-  <div>
-    <h1>index</h1>
-    <router-link to="login">login</router-link>
+  <div class="container">
+    <aside-menu></aside-menu>
+    <record></record>
+    <message></message>
   </div>
 </template>
 
 <script>
-export default {
-  name: "index",
-  components: {},
-  data() {
-    return {
-      list: []
-    };
-  },
-  methods: {
-    init() {
-      this.getList();
+  import asideMenu from "@/components/aside-menu";
+  import record from "@/components/record/record";
+  import message from "@/components/message/message";
+
+  export default {
+    name: "index",
+    components: {
+      asideMenu,
+      record,
+      message
     },
-    getList() {
-      this.list = this.$router.options.routes.map(item => item.path);
+    data() {
+      return {
+        list: []
+      };
+    },
+    methods: {
+      init() {
+        this.getList();
+      },
+      getList() {
+        this.list = this.$router.options.routes.map(item => item.path);
+      }
+    },
+    mounted() {
+      this.init();
     }
-  },
-  mounted() {
-    this.init();
-  }
-};
+  };
 </script>
+
+<style scoped lang="scss">
+  .container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+
+    .aside-menu {
+      flex: 0 0 60px;
+    }
+
+    .record {
+      width: 250px;
+    }
+  }
+</style>

@@ -125,6 +125,7 @@
       text-align: center;
       font-weight: bold;
       font-size: 18px;
+      margin-bottom: 15px;
     }
     .iconfont {
       font-size: 20px;
