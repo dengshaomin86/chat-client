@@ -2,9 +2,13 @@
   <div class="message">
     <header>
       <p>标题</p>
-      <div>
+      <el-dropdown trigger="click">
         <i class="el-icon-more"></i>
-      </div>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item icon="el-icon-plus">添加好友</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-thumb" @click.native="signOut">退出</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </header>
     <list></list>
     <entry></entry>
@@ -20,6 +24,11 @@
     components: {
       list,
       entry
+    },
+    methods: {
+      signOut() {
+        this.$router.push("/login");
+      }
     }
   };
 </script>

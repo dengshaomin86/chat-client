@@ -64,7 +64,7 @@
       },
       getDate(data) {
         data = Number(data);
-        return moment(Number(data)).format('YYYY/MM/DD, HH:mm:ss');
+        return moment(Number(data)).format("YYYY/MM/DD, HH:mm:ss");
       },
       getInfo() {
         axios.get("/user/getInfo").then(res => {

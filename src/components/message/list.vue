@@ -30,7 +30,29 @@
 
 <script>
   export default {
-    name: "list"
+    name: "list",
+    sockets: {
+      // connect(data) {
+      //   console.log("list - 已连接", data);
+      // },
+      // reconnect(data) {
+      //   console.log("reconnect", data);
+      // },
+      // disconnect(data) {
+      //   console.log("disconnect", data);
+      // },
+      // // 监听连接数量
+      // users(data) {
+      //   console.log("users", data);
+      // },
+      // // socket 队列推送消息
+      // transferMessage(data) {
+      //   console.log("transferMsg", data);
+      // },
+      // res: function (val) {
+      //   console.log("list - 接收到服务端消息", val);
+      // }
+    }
   };
 </script>
 

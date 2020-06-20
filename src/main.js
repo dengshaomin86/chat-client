@@ -7,8 +7,13 @@ import "element-ui/lib/theme-chalk/index.css";
 import "@/assets/js/utils.js";
 import "@/assets/js/axios.js";
 import "@/assets/iconfont/iconfont.css";
+import VueSocketIO from "vue-socket.io";
 
 Vue.use(ElementUI);
+Vue.use(new VueSocketIO({
+  debug: true,
+  connection: "http://127.0.0.1:3000/"
+}));
 
 Vue.config.productionTip = false;
 

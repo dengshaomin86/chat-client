@@ -94,6 +94,7 @@
     created() {
     },
     mounted() {
+      this.init();
     },
     watch: {
       type() {
