@@ -5,7 +5,7 @@
       <el-dropdown trigger="click">
         <i class="el-icon-more"></i>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item icon="el-icon-plus">添加好友</el-dropdown-item>
+          <!--<el-dropdown-item icon="el-icon-plus">添加好友</el-dropdown-item>-->
           <el-dropdown-item icon="el-icon-thumb" @click.native="signOut">退出</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
