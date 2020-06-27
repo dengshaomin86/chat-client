@@ -135,7 +135,7 @@
         data.type = "1";
         api.addChatList(data).then(res => {
           this.visible = false;
-          this.getChatList();
+          this.addChatList(res.data.data);
         }).catch(err => {
           console.log(err);
         });
@@ -232,7 +232,8 @@
         });
       },
       ...mapActions([
-        "getChatList"
+        "getChatList",
+        "addChatList"
       ])
     },
     mounted() {

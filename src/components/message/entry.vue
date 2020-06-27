@@ -1,5 +1,5 @@
 <template>
-  <div class="entry">
+  <div class="entry" v-if="activeChat.chatId">
     <div class="opt">
       <i class="el-icon-picture-outline-round"></i>
       <i class="el-icon-folder"></i>
@@ -55,15 +55,19 @@
       init() {
       },
       send() {
-        const { chatId, type, name } = this.activeChat;
+        let { chatId, chatType, toUsername, toUserId } = this.activeChat;
+        if (toUsername === this.username) {
+          toUsername = this.activeChat.fromUsername;
+          toUserId = this.activeChat.fromUserId;
+        }
         const msg = {
-          type,
           chatId,
+          chatType,
           msg: this.msg,
           msgDate: new Date().getTime(),
-          msgUser: this.username,
           msgType: "1",
-          toUser: name
+          toUsername,
+          toUserId
         };
         this.$socket.emit("message", msg);
         this.msg = "";

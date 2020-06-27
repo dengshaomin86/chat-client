@@ -1,8 +1,8 @@
 <template>
   <ul class="list" ref="list">
     <li v-for="(item, idx) in msgList"
-        :key="idx" :class="{'r':item.msgUser===username}">
-      <div class="container" v-if="item.msgUser===username">
+        :key="idx" :class="{'r':item.fromUsername===username}">
+      <div class="container" v-if="item.fromUsername===username">
         <div class="content">
           <p>{{item.msg}}</p>
         </div>
@@ -12,7 +12,7 @@
         <img src="@/assets/logo.png">
       </div>
 
-      <div class="container" v-if="item.msgUser!==username">
+      <div class="container" v-if="item.fromUsername!==username">
         <template v-if="item.type==='2'">
           <p class="username">{{item.msgUser}}</p>
         </template>

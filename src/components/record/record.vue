@@ -1,9 +1,9 @@
 <template>
   <div class="record">
     <div class="search">
-      <el-input prefix-icon="el-icon-search" v-model="keyword" placeholder="搜索"></el-input>
+      <el-input prefix-icon="el-icon-search" v-model="keyword" placeholder="搜索" clearable></el-input>
     </div>
-    <list></list>
+    <list :keyword="keyword"></list>
   </div>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
   <ul class="list">
     <li :class="{'active':activeChat.chatId===item.chatId}"
-        v-for="(item,idx) in chatList"
+        v-for="(item,idx) in filterList"
         :key="idx"
         @click="changeActiveChatAction(item)">
       <div class="avatar">
@@ -12,15 +12,16 @@
           <p class="name">{{item.name}}</p>
           <p class="content">
             <template v-if="item.type==='2'">
-              {{item.lastMsgUser}}：
+              {{item.msgUser}}：
             </template>
-            {{item.lastMsg}}
+            {{item.msg}}
           </p>
         </div>
         <div class="r">
-          <p class="time">{{renderDate(item.lastMsgDate)}}</p>
+          <p class="time">{{renderDate(item.msgDate)}}</p>
         </div>
       </div>
+      <i class="tips" v-if="item.tips"></i>
     </li>
   </ul>
 </template>
@@ -31,10 +32,19 @@
 
   export default {
     name: "list",
+    props: {
+      keyword: {
+        type: String,
+        default: ""
+      }
+    },
     data() {
       return {};
     },
     computed: {
+      filterList() {
+        return this.chatList.filter(item => item.name.indexOf(this.keyword) !== -1);
+      },
       ...mapState(["activeChat", "chatList"])
     },
     watch: {
@@ -42,7 +52,7 @@
         deep: true,
         immediate: true,
         handler(n) {
-          if (n.length) this.changeActiveChatAction(n[0]);
+          // if (n.length) this.changeActiveChatAction(n[0]);
         }
       }
     },
@@ -51,6 +61,7 @@
         this.getChatList();
       },
       renderDate(date) {
+        if (!date) return "";
         return moment(date).format("HH:ss");
       },
       changeActiveChatAction(item) {
@@ -78,8 +89,19 @@
       display: flex;
       cursor: pointer;
       transition: 0.5s;
+      position: relative;
       &.active {
         background-color: #ccc;
+      }
+      .tips {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        background-color: #ff914e;
+        border-radius: 100%;
+        position: absolute;
+        right: 4px;
+        top: 4px;
       }
       .avatar {
         width: 40px;

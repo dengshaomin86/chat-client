@@ -48,7 +48,7 @@
     }
 
     .record {
-      width: 250px;
+      flex: 0 0 250px;
     }
   }
 </style>
