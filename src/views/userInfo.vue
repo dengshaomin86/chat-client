@@ -29,7 +29,9 @@
             <el-button @click="save" type="primary">保存</el-button>
           </template>
         </template>
-        <el-button v-else>添加好友</el-button>
+        <el-button v-else type="primary" :disabled="form.status!=='0'" @click.stop="addFriend">添加好友
+          <template v-if="form.status!=='0'">（{{form.statusText}}）</template>
+        </el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -39,6 +41,8 @@
   import _ from "lodash";
   import qs from "qs";
   import moment from "moment";
+  import api from "@/assets/api";
+  import apiUser from "@/assets/api/user";
 
   export default {
     name: "user-info",
@@ -46,13 +50,7 @@
       return {
         readonly: true,
         userInfo: {}, // 备份信息
-        form: {
-          username: "username",
-          nickname: "nickname",
-          sex: "0",
-          hobby: "hobby",
-          createDate: "createDate"
-        }
+        form: {}
       };
     },
     methods: {
@@ -67,7 +65,10 @@
         return moment(Number(data)).format("YYYY/MM/DD, HH:mm:ss");
       },
       getInfo() {
-        axios.get("/user/getInfo").then(res => {
+        const params = {
+          username: this.$route.query.username || ""
+        };
+        apiUser.getInfo(qs.stringify(params)).then(res => {
           if (!res.data.flag) {
             this.$message.error(res.data.message);
             return;
@@ -93,15 +94,46 @@
         }).catch(err => {
           console.log(err);
         });
+      },
+      // 发起添加好友
+      addFriend() {
+        const item = this.form;
+        this.$prompt("", "留言", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          inputPlaceholder: "请输入留言",
+          inputValue: `我是${this.username}`
+        }).then(({ value }) => {
+          if (!value) {
+            this.$message.error("留言不能为空");
+            return;
+          }
+          const params = {
+            username: item.username,
+            userId: item.userId,
+            msg: value
+          };
+          api.addContactFriend(params).then(res => {
+            this.$message[res.data.flag ? "success" : "error"](res.data.message);
+            if (!res.data.flag) return;
+            item.status = res.data.status;
+            item.statusText = res.data.statusText;
+          }).catch(err => {
+            console.log(err);
+          });
+        }).catch(() => {
+        });
       }
     },
     mounted() {
       this.init();
     },
     computed: {
+      username() {
+        return sessionStorage.getItem("username");
+      },
       isSelf() {
-        const username = sessionStorage.getItem("username");
-        return username === this.userInfo.username;
+        return this.username === this.userInfo.username;
       }
     }
   };

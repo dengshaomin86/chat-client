@@ -8,7 +8,7 @@
         </div>
       </div>
 
-      <div class="avatar">
+      <div class="avatar" @click="viewUser(item)">
         <img src="@/assets/logo.png">
       </div>
 
@@ -72,6 +72,14 @@
           this.$refs.list.children[this.msgList.length - 1].scrollIntoView();
         });
       },
+      viewUser(item) {
+        this.$router.push({
+          path: "/userInfo",
+          query: {
+            username: item.fromUsername
+          }
+        });
+      },
       ...mapActions([
         "updateMsgList",
         "clearMsgList"
@@ -109,6 +117,7 @@
         flex: 0 0 40px;
         margin-right: 10px;
         background-color: #fff;
+        cursor: pointer;
         img {
           width: 100%;
           height: 100%;
