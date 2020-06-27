@@ -25,5 +25,40 @@ export default {
     return axios.request("/chat/getContactList", {
       params: data
     });
+  },
+
+  // 添加联系人
+  addContactFriend(data) {
+    return axios.request("/chat/addContactFriend", {
+      params: data
+    });
+  },
+
+  // 获取好友请求列表
+  getAddReqList(data) {
+    return axios.request("/chat/getAddReqList", {
+      params: data
+    });
+  },
+
+  // 同意好友请求
+  agreeAddFriendReq(data) {
+    return axios.request("/chat/agreeAddFriendReq", {
+      params: data
+    });
+  },
+
+  // 拒绝好友请求
+  refuseAddFriendReq(data) {
+    return axios.request("/chat/refuseAddFriendReq", {
+      params: data
+    });
+  },
+
+  // 搜索用户
+  searchUser(data) {
+    return axios.request("/chat/searchUser", {
+      params: data
+    });
   }
 };
