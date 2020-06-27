@@ -60,9 +60,6 @@
                :visible.sync="visibleAddReq"
                width="30%"
                :before-close="handleCloseAddReq">
-      <div class="search-con">
-        <el-input placeholder="请输入用户名" prefix-icon="el-icon-search" v-model="filterKeyword"></el-input>
-      </div>
       <el-table :data="addReqTableData"
                 border
                 style="width: 100%">
@@ -102,7 +99,6 @@
         searchKeyword: "",
         searchFriendTableData: [],
         visibleAddReq: false,
-        filterKeyword: "",
         addReqTableData: []
       };
     },
@@ -207,7 +203,6 @@
       // 关闭好友请求对话框
       handleCloseAddReq() {
         this.visibleAddReq = false;
-        this.filterKeyword = "";
       },
       // 拒绝好友请求
       refuse(item) {
