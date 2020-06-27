@@ -13,8 +13,8 @@
       </div>
 
       <div class="container" v-if="item.fromUsername!==username">
-        <template v-if="item.type==='2'">
-          <p class="username">{{item.msgUser}}</p>
+        <template v-if="item.chatType==='2'">
+          <p class="username">{{item.fromUsername}}</p>
         </template>
         <div class="content">
           <p>{{item.msg}}</p>

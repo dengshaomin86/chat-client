@@ -1,5 +1,5 @@
 <template>
-  <div class="entry" v-if="activeChat.chatId">
+  <div class="entry" v-if="activeChat.chatId" @keyup.enter="send">
     <div class="opt">
       <i class="el-icon-picture-outline-round"></i>
       <i class="el-icon-folder"></i>
@@ -40,14 +40,14 @@
         console.log("disconnect", data);
       },
       res: function (val) {
-        console.log("收到推送", val);
+        // console.log("收到推送", val);
       },
       message: function (val) {
-        console.log("收到消息", val);
+        // console.log("收到消息", val);
         this.updateMsgList([val]);
       },
       messageResponse: function (val) {
-        console.log("发送成功响应", val);
+        // console.log("发送成功响应", val);
         this.updateMsgList([val]);
       }
     },
@@ -69,7 +69,8 @@
           toUsername,
           toUserId
         };
-        this.$socket.emit("message", msg);
+        const typeName = chatType === "1" ? "message" : "messageGroup";
+        this.$socket.emit(typeName, msg);
         this.msg = "";
       },
       ...mapActions([
@@ -95,6 +96,10 @@
       i {
         font-size: 20px;
         margin-right: 15px;
+        cursor: pointer;
+        &:hover {
+          color: #0077aa;
+        }
       }
     }
     article, textarea {

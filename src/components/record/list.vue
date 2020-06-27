@@ -11,8 +11,8 @@
         <div class="l">
           <p class="name">{{item.name}}</p>
           <p class="content">
-            <template v-if="item.type==='2'">
-              {{item.msgUser}}：
+            <template v-if="item.chatType==='2'">
+              {{item.fromUsername}}：
             </template>
             {{item.msg}}
           </p>
@@ -43,6 +43,7 @@
     },
     computed: {
       filterList() {
+        if (!this.chatList || !this.chatList.length) return [];
         return this.chatList.filter(item => item.name.indexOf(this.keyword) !== -1);
       },
       ...mapState(["activeChat", "chatList"])
