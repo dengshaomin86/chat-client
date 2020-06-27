@@ -1,7 +1,7 @@
 <template>
   <div class="message">
     <header>
-      <p>标题</p>
+      <p>{{activeChat.name}}</p>
       <el-dropdown trigger="click">
         <i class="el-icon-more"></i>
         <el-dropdown-menu slot="dropdown">
@@ -18,6 +18,7 @@
 <script>
   import list from "./list";
   import entry from "./entry";
+  import { mapState } from "vuex";
 
   export default {
     name: "message",
@@ -25,9 +26,20 @@
       list,
       entry
     },
+    data() {
+      return {};
+    },
+    computed: {
+      ...mapState(["activeChat"])
+    },
     methods: {
       signOut() {
-        this.$router.push("/login");
+        axios.get("/user/signOut").then(res => {
+          sessionStorage.removeItem("username");
+          this.$router.push("/login");
+        }).catch(err => {
+          console.log(err);
+        });
       }
     }
   };
@@ -58,6 +70,7 @@
 
     .list {
       height: 100%;
+      overflow-x: hidden;
     }
 
     .entry {

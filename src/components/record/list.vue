@@ -1,30 +1,24 @@
 <template>
   <ul class="list">
-    <li class="active">
+    <li :class="{'active':activeChat.chatId===item.chatId}"
+        v-for="(item,idx) in chatList"
+        :key="idx"
+        @click="changeActiveChatAction(item)">
       <div class="avatar">
         <img src="@/assets/logo.png">
       </div>
       <div class="record-msg">
         <div class="l">
-          <p class="name">名字name</p>
-          <p class="content">内容content内容</p>
+          <p class="name">{{item.name}}</p>
+          <p class="content">
+            <template v-if="item.type==='2'">
+              {{item.lastMsgUser}}：
+            </template>
+            {{item.lastMsg}}
+          </p>
         </div>
         <div class="r">
-          <p class="time">12:59</p>
-        </div>
-      </div>
-    </li>
-    <li>
-      <div class="avatar">
-        <img src="@/assets/logo.png">
-      </div>
-      <div class="record-msg">
-        <div class="l">
-          <p class="name">名字name名字name名字name</p>
-          <p class="content">内容content内容内容content内容内容content内容</p>
-        </div>
-        <div class="r">
-          <p class="time">12:59</p>
+          <p class="time">{{renderDate(item.lastMsgDate)}}</p>
         </div>
       </div>
     </li>
@@ -32,8 +26,44 @@
 </template>
 
 <script>
+  import moment from "moment";
+  import { mapState, mapActions } from "vuex";
+
   export default {
-    name: "list"
+    name: "list",
+    data() {
+      return {};
+    },
+    computed: {
+      ...mapState(["activeChat", "chatList"])
+    },
+    watch: {
+      chatList: {
+        deep: true,
+        immediate: true,
+        handler(n) {
+          if (n.length) this.changeActiveChatAction(n[0]);
+        }
+      }
+    },
+    methods: {
+      init() {
+        this.getChatList();
+      },
+      renderDate(date) {
+        return moment(date).format("HH:ss");
+      },
+      changeActiveChatAction(item) {
+        this.changeActiveChat(item);
+      },
+      ...mapActions([
+        "changeActiveChat",
+        "getChatList"
+      ])
+    },
+    mounted() {
+      this.init();
+    }
   };
 </script>
 
@@ -46,6 +76,8 @@
       padding: 10px;
       border-bottom: 1px solid #ccc;
       display: flex;
+      cursor: pointer;
+      transition: 0.5s;
       &.active {
         background-color: #ccc;
       }

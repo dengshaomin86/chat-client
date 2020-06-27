@@ -14,6 +14,8 @@
 </template>
 
 <script>
+  import { mapState, mapActions } from "vuex";
+
   export default {
     name: "entry",
     data() {
@@ -21,9 +23,15 @@
         msg: ""
       };
     },
+    computed: {
+      username() {
+        return sessionStorage.getItem("username");
+      },
+      ...mapState(["activeChat"])
+    },
     sockets: {
       connect(data) {
-        console.log("已连接", data);
+        console.log("connect", data);
       },
       reconnect(data) {
         console.log("reconnect", data);
@@ -31,26 +39,38 @@
       disconnect(data) {
         console.log("disconnect", data);
       },
-      // 监听连接数量
-      users(data) {
-        console.log("users", data);
-      },
-      // socket 队列推送消息
-      transferMessage(data) {
-        console.log("transferMsg", data);
-      },
       res: function (val) {
-        console.log("接收到服务端消息", val);
+        console.log("收到推送", val);
+      },
+      message: function (val) {
+        console.log("收到消息", val);
+        this.updateMsgList([val]);
+      },
+      messageResponse: function (val) {
+        console.log("发送成功响应", val);
+        this.updateMsgList([val]);
       }
     },
     methods: {
       init() {
-        this.$socket.emit("chat", "hello");
       },
       send() {
-        this.$socket.emit("chat", this.msg);
+        const { chatId, type, name } = this.activeChat;
+        const msg = {
+          type,
+          chatId,
+          msg: this.msg,
+          msgDate: new Date().getTime(),
+          msgUser: this.username,
+          msgType: "1",
+          toUser: name
+        };
+        this.$socket.emit("message", msg);
         this.msg = "";
-      }
+      },
+      ...mapActions([
+        "updateMsgList"
+      ])
     },
     mounted() {
       this.init();

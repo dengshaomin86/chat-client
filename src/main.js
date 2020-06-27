@@ -11,7 +11,7 @@ import VueSocketIO from "vue-socket.io";
 
 Vue.use(ElementUI);
 Vue.use(new VueSocketIO({
-  debug: true,
+  debug: false,
   connection: "http://127.0.0.1:3000/"
 }));
 

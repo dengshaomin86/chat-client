@@ -70,9 +70,10 @@
         axios.post("/user/signIn", qs.stringify(this.signIn)).then(res => {
           this.$message[res.data.flag ? "success" : "error"](res.data.message);
           if (!res.data.flag) return;
-          this.$router.push("/");
+          this.connectSocket();
           sessionStorage.setItem("username", this.signIn.username);
           Object.assign(this.$data.signIn, this.$options.data().signIn);
+          this.$router.push("/");
         }).catch(err => {
           console.log(err);
         });
@@ -89,6 +90,10 @@
       },
       enter() {
         this[`${this.type}Action`]();
+      },
+      connectSocket() {
+        this.$socket.disconnect();
+        this.$socket.connect();
       }
     },
     created() {

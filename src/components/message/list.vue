@@ -1,62 +1,97 @@
 <template>
-  <ul class="list">
-    <li>
-      <div class="avatar">
-        <img src="@/assets/logo.png">
+  <ul class="list" ref="list">
+    <li v-for="(item, idx) in msgList"
+        :key="idx" :class="{'r':item.msgUser===username}">
+      <div class="container" v-if="item.msgUser===username">
+        <div class="content">
+          <p>{{item.msg}}</p>
+        </div>
       </div>
-      <div class="content">
-        <p>谭鸭血旗舰店谭鸭血旗舰店谭鸭血旗舰店</p>
-      </div>
-    </li>
-    <li>
-      <div class="avatar">
-        <img src="@/assets/logo.png">
-      </div>
-      <div class="content">
-        <p>谭鸭血旗舰店谭鸭血旗舰店谭鸭血旗舰店谭鸭血旗舰店谭鸭血旗舰店谭鸭血旗舰店谭鸭血旗舰店谭鸭血旗舰店谭鸭血旗舰店谭鸭血旗舰店谭鸭血旗舰店谭鸭血旗舰店</p>
-      </div>
-    </li>
 
-    <li class="r">
-      <div class="content">
-        <p>谭鸭血旗舰店谭鸭血旗舰店谭鸭血旗舰店谭鸭血旗舰店谭鸭血旗舰店谭鸭血旗舰店谭鸭血旗舰店谭鸭血旗舰店谭鸭血旗舰店谭鸭血旗舰店谭鸭血旗舰店谭鸭血旗舰店</p>
-      </div>
       <div class="avatar">
         <img src="@/assets/logo.png">
+      </div>
+
+      <div class="container" v-if="item.msgUser!==username">
+        <template v-if="item.type==='2'">
+          <p class="username">{{item.msgUser}}</p>
+        </template>
+        <div class="content">
+          <p>{{item.msg}}</p>
+        </div>
       </div>
     </li>
   </ul>
 </template>
 
 <script>
+  import { mapState, mapActions } from "vuex";
+  import api from "@/assets/api";
+
   export default {
     name: "list",
-    sockets: {
-      // connect(data) {
-      //   console.log("list - 已连接", data);
-      // },
-      // reconnect(data) {
-      //   console.log("reconnect", data);
-      // },
-      // disconnect(data) {
-      //   console.log("disconnect", data);
-      // },
-      // // 监听连接数量
-      // users(data) {
-      //   console.log("users", data);
-      // },
-      // // socket 队列推送消息
-      // transferMessage(data) {
-      //   console.log("transferMsg", data);
-      // },
-      // res: function (val) {
-      //   console.log("list - 接收到服务端消息", val);
-      // }
+    data() {
+      return {};
+    },
+    computed: {
+      username() {
+        return sessionStorage.getItem("username");
+      },
+      ...mapState(["activeChat", "msgList"])
+    },
+    watch: {
+      activeChat: {
+        deep: true,
+        immediate: true,
+        handler(n) {
+          if (n.chatId) this.getMsgList();
+        }
+      },
+      msgList: {
+        deep: true,
+        immediate: true,
+        handler(n) {
+          if (n.length) this.scrollToView();
+        }
+      }
+    },
+    methods: {
+      getMsgList() {
+        this.clearMsgList();
+        if (!this.activeChat.chatId) return;
+        api.getMsgList({
+          chatId: this.activeChat.chatId
+        }).then(res => {
+          this.updateMsgList(res.data.list);
+        }).catch(err => {
+          console.log(err);
+        });
+      },
+      scrollToView() {
+        this.$nextTick(() => {
+          this.$refs.list.children[this.msgList.length - 1].scrollIntoView();
+        });
+      },
+      ...mapActions([
+        "updateMsgList",
+        "clearMsgList"
+      ])
     }
   };
 </script>
 
 <style scoped lang="scss">
+  $rightBg: rgba(34, 170, 154, 0.6);
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    background-color: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: rebeccapurple;
+  }
+
   .list {
     width: 100%;
     list-style: none;
@@ -79,21 +114,30 @@
           height: 100%;
         }
       }
-      .content {
-        background-color: #fff;
-        padding: 10px;
-        position: relative;
-        word-break: break-all;
+      .container {
         max-width: 60%;
 
-        &:before {
-          content: "";
-          display: inline-block;
-          border: 5px solid;
-          border-color: transparent #fff transparent transparent;
-          position: absolute;
-          top: 16px;
-          left: -10px;
+        .username {
+          font-size: 12px;
+          color: #999;
+          margin-bottom: 2px;
+        }
+
+        .content {
+          background-color: #fff;
+          padding: 10px;
+          position: relative;
+          word-break: break-all;
+
+          &:before {
+            content: "";
+            display: inline-block;
+            border: 5px solid;
+            border-color: transparent #fff transparent transparent;
+            position: absolute;
+            top: 16px;
+            left: -10px;
+          }
         }
       }
 
@@ -105,8 +149,9 @@
           margin-left: 10px;
         }
         .content {
+          background-color: $rightBg;
           &:before {
-            border-color: transparent transparent transparent #fff;
+            border-color: transparent transparent transparent $rightBg;
             position: absolute;
             top: 16px;
             left: auto;
