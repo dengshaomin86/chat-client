@@ -63,7 +63,7 @@
       },
       renderDate(date) {
         if (!date) return "";
-        return moment(date).format("HH:ss");
+        return moment(date).format("HH:mm");
       },
       changeActiveChatAction(item) {
         this.changeActiveChat(item);

@@ -20,6 +20,8 @@ export default new Vuex.Store({
       state.chatList = data;
     },
     [types.ADD_CHAT_LIST](state, data) {
+      const idx = state.chatList.findIndex(item => item.chatId === data.chatId);
+      if (idx !== -1) state.chatList.splice(idx, 1);
       state.chatList.unshift(data);
       state.activeChat = data;
     },
