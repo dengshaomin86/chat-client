@@ -8,11 +8,12 @@ import "@/assets/js/utils.js";
 import "@/assets/js/axios.js";
 import "@/assets/iconfont/iconfont.css";
 import VueSocketIO from "vue-socket.io";
+import serve from "@/assets/js/serve";
 
 Vue.use(ElementUI);
 Vue.use(new VueSocketIO({
   debug: false,
-  connection: "http://127.0.0.1:3000/"
+  connection: serve
 }));
 
 Vue.config.productionTip = false;

@@ -1,10 +1,9 @@
 import axios from "axios";
 import { Message } from "element-ui";
+import serve from "@/assets/js/serve";
 
 const $axios = axios.create({
-  // baseURL: process.env.NODE_ENV === "production" ? "http://139.9.50.13:3000" : "http://127.0.0.1:3000",
-  baseURL: "http://127.0.0.1:3000",
-  // baseURL: "http://139.9.50.13:3000",
+  baseURL: serve,
   withCredentials: true,
   timeout: 10000,
   headers: {}
