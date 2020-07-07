@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
 import axios from "@/assets/js/axios";
-import { Message } from "element-ui";
 
 Vue.use(Router);
 
@@ -48,15 +47,7 @@ router.beforeEach((to, from, next) => {
 // 校验登录状态
 router.onReady(res => {
   if (pass.includes(res.path)) return;
-  axios.get("/checkOnline").then(res => {
-    if (!res.data.flag) {
-      Message.error(res.data.message);
-      sessionStorage.removeItem("username");
-      router.push("/login");
-    }
-  }).catch(err => {
-    console.log(err);
-  });
+  axios.get("/checkOnline").then(() => {}).catch(() => {});
 });
 
 export default router;
