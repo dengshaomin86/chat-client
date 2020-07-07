@@ -4,8 +4,8 @@
         v-for="(item,idx) in filterList"
         :key="idx"
         @click="changeActiveChatAction(item)">
-      <div class="avatar">
-        <img src="@/assets/logo.png">
+      <div class="avatar-con" :data-i="item.avatar">
+        <avatar shape="square" :size="40" :src="item.avatar"></avatar>
       </div>
       <div class="record-msg">
         <div class="l">
@@ -104,12 +104,11 @@
         right: 4px;
         top: 4px;
       }
-      .avatar {
+      .avatar-con {
         width: 40px;
         height: 40px;
         flex: 0 0 40px;
         margin-right: 10px;
-        background-color: #fff;
         img {
           width: 100%;
           height: 100%;

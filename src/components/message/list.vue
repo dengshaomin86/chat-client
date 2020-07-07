@@ -8,8 +8,8 @@
         </div>
       </div>
 
-      <div class="avatar" @click="viewUser(item)">
-        <img src="@/assets/logo.png">
+      <div class="avatar-con" @click="viewUser(item)">
+        <avatar shape="square" :size="40" :src="item.fromUserAvatar"></avatar>
       </div>
 
       <div class="container" v-if="item.fromUsername!==username">
@@ -111,12 +111,11 @@
       align-items: flex-start;
       margin-bottom: 10px;
 
-      .avatar {
+      .avatar-con {
         width: 40px;
         height: 40px;
         flex: 0 0 40px;
         margin-right: 10px;
-        background-color: #fff;
         cursor: pointer;
         img {
           width: 100%;
@@ -153,7 +152,7 @@
       &.r {
         display: flex;
         justify-content: flex-end;
-        .avatar {
+        .avatar-con {
           margin-right: 0;
           margin-left: 10px;
         }

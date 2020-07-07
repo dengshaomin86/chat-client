@@ -28,7 +28,7 @@
     },
     computed: {
       style() {
-        const radius = this.shape === "circle" ? "100%" : "6px";
+        const radius = this.shape === "circle" ? "100%" : "0px";
         const src = this.src ? axios.defaults.baseURL + this.src : require("@/assets/logo.png");
         const styles = [`width:${this.size}px;height:${this.size}px;background-image: url(${src});border-radius:${radius}`];
         if (this.upload) styles.push("cursor: pointer");
