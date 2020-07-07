@@ -2,22 +2,27 @@
   <ul class="list" ref="list">
     <li v-for="(item, idx) in msgList"
         :key="idx" :class="{'r':item.fromUsername===username}">
-      <div class="container" v-if="item.fromUsername===username">
-        <div class="content">
-          <p>{{item.msg}}</p>
+      <div class="msg-date" v-show="showDate(item.msgDate, idx)">
+        <p>{{formatDate(item.msgDate)}}</p>
+      </div>
+      <div class="msg-con">
+        <div class="container" v-if="item.fromUsername===username">
+          <div class="content">
+            <p>{{item.msg}}</p>
+          </div>
         </div>
-      </div>
 
-      <div class="avatar-con" @click="viewUser(item)">
-        <avatar shape="square" :size="40" :src="item.fromUserAvatar"></avatar>
-      </div>
+        <div class="avatar-con" @click="viewUser(item)">
+          <avatar shape="square" :size="40" :src="item.fromUserAvatar"></avatar>
+        </div>
 
-      <div class="container" v-if="item.fromUsername!==username">
-        <template v-if="item.chatType==='2'">
-          <p class="username">{{item.fromUsername}}</p>
-        </template>
-        <div class="content">
-          <p>{{item.msg}}</p>
+        <div class="container" v-if="item.fromUsername!==username">
+          <template v-if="item.chatType==='2'">
+            <p class="username">{{item.fromUsername}}</p>
+          </template>
+          <div class="content">
+            <p>{{item.msg}}</p>
+          </div>
         </div>
       </div>
     </li>
@@ -27,6 +32,7 @@
 <script>
   import { mapState, mapActions } from "vuex";
   import api from "@/assets/api";
+  import moment from "moment";
 
   export default {
     name: "list",
@@ -80,6 +86,13 @@
           }
         });
       },
+      formatDate(date) {
+        return moment(date).format("YYYY/MM/DD HH:mm:ss");
+      },
+      showDate(msgDate, idx) {
+        if (idx === 0) return true;
+        return new Date(msgDate).getTime() - new Date(this.msgList[idx - 1].msgDate).getTime() > 15 * 60 * 1000;
+      },
       ...mapActions([
         "updateMsgList",
         "clearMsgList"
@@ -107,9 +120,23 @@
     padding: 10px 30px;
     margin: 0;
     li {
-      display: flex;
-      align-items: flex-start;
       margin-bottom: 10px;
+
+      .msg-date {
+        text-align: center;
+        p {
+          background-color: #cdcdcd;
+          display: inline-block;
+          font-size: 12px;
+          padding: 2px 4px;
+          color: #333;
+        }
+      }
+
+      .msg-con {
+        display: flex;
+        align-items: flex-start;
+      }
 
       .avatar-con {
         width: 40px;
@@ -150,8 +177,10 @@
       }
 
       &.r {
-        display: flex;
-        justify-content: flex-end;
+        .msg-con {
+          display: flex;
+          justify-content: flex-end;
+        }
         .avatar-con {
           margin-right: 0;
           margin-left: 10px;
