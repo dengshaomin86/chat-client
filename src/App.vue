@@ -37,8 +37,7 @@
     height: 100%;
     padding: 0;
     margin: 0;
-    background: rgba(29, 160, 155, 0.64) url("./assets/images/bg/3735.jpg") no-repeat center center;
-    background-size: cover;
+    overflow-x: hidden;
   }
 
   p {
@@ -51,6 +50,15 @@
   }
 
   #app {
+    background: rgba(29, 160, 155, 0.64) url("./assets/images/bg/3735.jpg") no-repeat center center;
+    background-size: cover;
+
+    > div {
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+    }
+
     &:before, &:after {
       display: table;
       content: "";

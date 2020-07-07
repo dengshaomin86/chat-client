@@ -5,6 +5,9 @@
       <el-form-item label="用户名">
         <el-input :value="form.username" readonly></el-input>
       </el-form-item>
+      <el-form-item label="头像">
+        <avatar :size="100" :upload="!readonly && uploadCB" :src="form.avatar"></avatar>
+      </el-form-item>
       <el-form-item label="昵称">
         <el-input v-model="form.nickname" :readonly="readonly"></el-input>
       </el-form-item>
@@ -38,7 +41,7 @@
 </template>
 
 <script>
-  import _ from "lodash";
+  import { pick } from "lodash";
   import qs from "qs";
   import moment from "moment";
   import api from "@/assets/api";
@@ -50,7 +53,8 @@
       return {
         readonly: true,
         userInfo: {}, // 备份信息
-        form: {}
+        form: {},
+        disabled: false
       };
     },
     methods: {
@@ -88,9 +92,10 @@
       },
       save() {
         this.readonly = true;
-        const data = _.pick(this.form, ["username", "nickname", "sex", "hobby"]);
+        const data = pick(this.form, ["username", "avatar", "nickname", "sex", "hobby"]);
         axios.post("/user/update", qs.stringify(data)).then(res => {
-          this.$message[res.data.flag ? "success" : "error"](res.data.message);
+          this.$message.auto(res.data);
+          if (res.data.flag) sessionStorage.setItem("avatar", this.form.avatar);
         }).catch(err => {
           console.log(err);
         });
@@ -123,6 +128,10 @@
           });
         }).catch(() => {
         });
+      },
+      // 上传头像回调
+      uploadCB(src) {
+        this.$set(this.form, "avatar", src);
       }
     },
     mounted() {
@@ -141,8 +150,6 @@
 
 <style scoped lang="scss">
   .user-info {
-    width: 100%;
-    height: 100%;
     background-color: #fff;
     padding: 10px 30px;
 

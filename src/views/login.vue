@@ -72,6 +72,7 @@
           if (!res.data.flag) return;
           this.connectSocket();
           sessionStorage.setItem("username", this.signIn.username);
+          sessionStorage.setItem("avatar", res.data.user.avatar);
           Object.assign(this.$data.signIn, this.$options.data().signIn);
           this.$router.push("/");
         }).catch(err => {

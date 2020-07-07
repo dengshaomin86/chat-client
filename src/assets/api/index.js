@@ -60,5 +60,10 @@ export default {
     return axios.request("/chat/searchUser", {
       params: data
     });
+  },
+
+  // 图片上传
+  uploadImg(data) {
+    return axios.post("/uploadImg", data);
   }
 };

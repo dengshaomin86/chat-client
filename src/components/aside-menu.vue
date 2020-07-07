@@ -1,7 +1,7 @@
 <template>
   <div class="aside-menu">
-    <div class="avatar" @click="user">
-      <img src="@/assets/logo.png">
+    <div class="avatar-con" @click="user">
+      <avatar :size="40" shape="square" :src="avatar"></avatar>
     </div>
     <i class="icon el-icon-chat-line-round active" title="聊天"></i>
     <i class="icon el-icon-notebook-1" title="通讯录" @click="showContact"></i>
@@ -105,6 +105,9 @@
     computed: {
       username() {
         return sessionStorage.getItem("username");
+      },
+      avatar() {
+        return sessionStorage.getItem("avatar");
       }
     },
     methods: {
@@ -244,13 +247,10 @@
     flex-direction: column;
     align-items: center;
 
-    .avatar {
+    .avatar-con {
       width: 40px;
       margin: 10px auto;
       cursor: pointer;
-      img {
-        width: 100%;
-      }
     }
 
     .icon {
