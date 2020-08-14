@@ -1,4 +1,5 @@
 module.exports = {
+  outputDir: "dist/production", // dist
   css: {
     loaderOptions: {
       sass: {
