@@ -50,7 +50,7 @@
   }
 
   #app {
-    background: rgba(29, 160, 155, 0.64) url("./assets/images/bg/3735.jpg") no-repeat center center;
+    background: rgba(29, 160, 155, 0.64) url("./assets/images/bg/02.jpg") no-repeat center center;
     background-size: cover;
 
     > div {
