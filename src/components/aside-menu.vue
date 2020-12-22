@@ -84,9 +84,9 @@
 </template>
 
 <script>
-  import api from "@/assets/api";
+  import api from "@/api";
   import _ from "lodash";
-  import { mapActions } from "vuex";
+  import {mapActions} from "vuex";
 
   export default {
     name: "aside-menu",
@@ -182,7 +182,7 @@
           cancelButtonText: "取消",
           inputPlaceholder: "请输入留言",
           inputValue: `我是${this.username}`
-        }).then(({ value }) => {
+        }).then(({value}) => {
           if (!value) {
             this.$message.error("留言不能为空");
             return;

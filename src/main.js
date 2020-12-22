@@ -4,16 +4,13 @@ import router from "./router";
 import store from "./store";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
-import "@/assets/js/utils.js";
-import "@/assets/js/axios.js";
-import "@/assets/iconfont/iconfont.css";
 import VueSocketIO from "vue-socket.io";
-import serve from "@/assets/js/serve";
+import "@/utils";
 
 Vue.use(ElementUI);
 Vue.use(new VueSocketIO({
   debug: false,
-  connection: serve
+  connection: process.env.VUE_APP_URL
 }));
 
 Vue.config.productionTip = false;

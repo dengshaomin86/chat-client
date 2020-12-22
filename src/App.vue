@@ -32,36 +32,6 @@
 </script>
 
 <style lang="scss">
-  html, body, #app {
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    overflow-x: hidden;
-  }
+  @import "assets/scss/global";
 
-  p {
-    padding: 0;
-    margin: 0;
-  }
-
-  * {
-    box-sizing: border-box;
-  }
-
-  #app {
-    background: rgba(29, 160, 155, 0.64) url("./assets/images/bg/02.jpg") no-repeat center center;
-    background-size: cover;
-
-    > div {
-      width: 100%;
-      height: 100%;
-      overflow-x: hidden;
-    }
-
-    &:before, &:after {
-      display: table;
-      content: "";
-    }
-  }
 </style>

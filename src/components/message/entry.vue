@@ -14,7 +14,7 @@
 </template>
 
 <script>
-  import { mapState, mapActions } from "vuex";
+  import {mapState, mapActions} from "vuex";
 
   export default {
     name: "entry",
@@ -55,7 +55,7 @@
       init() {
       },
       send() {
-        let { chatId, chatType, toUsername, toUserId } = this.activeChat;
+        let {chatId, chatType, toUsername, toUserId} = this.activeChat;
         if (toUsername === this.username) {
           toUsername = this.activeChat.fromUsername;
           toUserId = this.activeChat.fromUserId;

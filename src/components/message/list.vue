@@ -30,8 +30,8 @@
 </template>
 
 <script>
-  import { mapState, mapActions } from "vuex";
-  import api from "@/assets/api";
+  import {mapState, mapActions} from "vuex";
+  import api from "@/api";
   import moment from "moment";
 
   export default {

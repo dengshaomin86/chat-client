@@ -1,5 +1,5 @@
 import Vue from "vue";
-import { Message } from "element-ui";
+import {Message} from "element-ui";
 import directive from "./directive.js";
 import "./axios.js";
 import avatar from "@/components/common/avatar";

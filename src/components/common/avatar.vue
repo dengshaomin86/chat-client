@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import api from "@/assets/api";
+  import api from "@/api";
 
   export default {
     name: "avatar",

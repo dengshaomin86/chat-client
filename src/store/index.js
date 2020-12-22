@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import types from "./mutation-types.js";
-import api from "@/assets/api";
+import api from "@/api";
 
 Vue.use(Vuex);
 
@@ -51,23 +51,23 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    [types.CHANGE_ACTIVE_CHAT]({ commit }, data) {
+    [types.CHANGE_ACTIVE_CHAT]({commit}, data) {
       commit(types.CHANGE_ACTIVE_CHAT, data);
     },
-    [types.GET_CHAT_LIST]({ commit }) {
+    [types.GET_CHAT_LIST]({commit}) {
       api.getChatList().then(res => {
         commit(types.GET_CHAT_LIST, res.data.list);
       }).catch(err => {
         console.log(err);
       });
     },
-    [types.ADD_CHAT_LIST]({ commit }, data) {
+    [types.ADD_CHAT_LIST]({commit}, data) {
       commit(types.ADD_CHAT_LIST, data);
     },
-    [types.UPDATE_MSG_LIST]({ commit }, data) {
+    [types.UPDATE_MSG_LIST]({commit}, data) {
       commit(types.UPDATE_MSG_LIST, data);
     },
-    [types.CLEAR_MSG_LIST]({ commit }) {
+    [types.CLEAR_MSG_LIST]({commit}) {
       commit(types.CLEAR_MSG_LIST);
     }
   },

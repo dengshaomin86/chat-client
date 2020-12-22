@@ -18,7 +18,7 @@
 <script>
   import list from "./list";
   import entry from "./entry";
-  import { mapState } from "vuex";
+  import {mapState} from "vuex";
 
   export default {
     name: "message",

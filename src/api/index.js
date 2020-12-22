@@ -1,4 +1,4 @@
-import axios from "@/assets/js/axios";
+import axios from "@/utils/axios";
 
 export default {
   // 获取聊天列表

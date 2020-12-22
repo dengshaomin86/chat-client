@@ -41,11 +41,11 @@
 </template>
 
 <script>
-  import { pick } from "lodash";
+  import {pick} from "lodash";
   import qs from "qs";
   import moment from "moment";
-  import api from "@/assets/api";
-  import apiUser from "@/assets/api/user";
+  import api from "@/api";
+  import apiUser from "@/api/user";
 
   export default {
     name: "user-info",
@@ -108,7 +108,7 @@
           cancelButtonText: "取消",
           inputPlaceholder: "请输入留言",
           inputValue: `我是${this.username}`
-        }).then(({ value }) => {
+        }).then(({value}) => {
           if (!value) {
             this.$message.error("留言不能为空");
             return;
