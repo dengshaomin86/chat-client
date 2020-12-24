@@ -5,6 +5,9 @@
 </template>
 
 <script>
+  import {mapMutations} from "vuex";
+  import storage from "@/utils/storage";
+
   export default {
     sockets: {
       // connect(data) {
@@ -27,6 +30,15 @@
       // res: function (val) {
       //   console.log("接收到服务端消息", val);
       // }
+    },
+    methods: {
+      init() {
+        this.setTheme(storage.local.get("theme"));
+      },
+      ...mapMutations(["setTheme"])
+    },
+    mounted() {
+      this.init();
     }
   };
 </script>

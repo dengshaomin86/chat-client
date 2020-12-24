@@ -3,7 +3,7 @@
     <div class="form-con">
       <template v-if="type==='signIn'">
         <p class="title">sign in</p>
-        <i class="iconfont icon-zhuceyouli" @click="type='signUp'"></i>
+        <i class="iconfont icon-signup" @click="type='signUp'"></i>
         <el-form ref="signIn" :model="signIn">
           <el-form-item>
             <el-input v-model="signIn.username" placeholder="username" clearable maxLength="16"></el-input>
@@ -22,7 +22,7 @@
 
       <template v-else>
         <p class="title">sign up</p>
-        <i class="iconfont icon-denglu" @click="type='signIn'"></i>
+        <i class="iconfont icon-signin" @click="type='signIn'"></i>
         <el-form ref="signUp" :model="signUp">
           <el-form-item>
             <el-input v-model="signUp.username" placeholder="username" clearable maxLength="16" title="username"></el-input>
@@ -44,6 +44,7 @@
 
 <script>
   import qs from "qs";
+  import storage from "@/utils/storage";
 
   export default {
     name: "login",
@@ -63,16 +64,25 @@
     },
     methods: {
       init() {
+        storage.local.removeUser("data_user");
       },
       signInAction() {
         if (!this.signIn.username) return;
         // 使用 qs 库编码数据，以 application / x-www-form-urlencoded 格式发送数据
         axios.post("/user/signIn", qs.stringify(this.signIn)).then(res => {
-          this.$message[res.data.flag ? "success" : "error"](res.data.message);
+          this.$message.auto(res.data);
           if (!res.data.flag) return;
           this.connectSocket();
-          sessionStorage.setItem("username", this.signIn.username);
-          sessionStorage.setItem("avatar", res.data.user.avatar);
+          storage.local.set({
+            label: "username",
+            value: this.signIn.username,
+            type: "user"
+          });
+          storage.local.set({
+            label: "avatar",
+            value: res.data.user.avatar,
+            type: "user"
+          });
           Object.assign(this.$data.signIn, this.$options.data().signIn);
           this.$router.push("/");
         }).catch(err => {

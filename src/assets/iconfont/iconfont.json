@@ -1,21 +1,112 @@
 {
   "id": "1780690",
-  "name": "chat-client",
+  "name": "chat",
   "font_family": "iconfont",
   "css_prefix_text": "icon-",
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1004596",
+      "name": "已加好友",
+      "font_class": "friend",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "13625333",
+      "name": "添加好友",
+      "font_class": "add-friend",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "1308374",
+      "name": "227用户_性别",
+      "font_class": "sex",
+      "unicode": "e63a",
+      "unicode_decimal": 58938
+    },
+    {
+      "icon_id": "3734365",
+      "name": "11性别1",
+      "font_class": "female",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "3734367",
+      "name": "12性别2",
+      "font_class": "male",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "14348498",
+      "name": "编辑",
+      "font_class": "edit",
+      "unicode": "e69d",
+      "unicode_decimal": 59037
+    },
+    {
+      "icon_id": "6270931",
+      "name": "截图",
+      "font_class": "cut",
+      "unicode": "e795",
+      "unicode_decimal": 59285
+    },
+    {
+      "icon_id": "4572455",
+      "name": "记录",
+      "font_class": "record",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "5477163",
+      "name": "图片",
+      "font_class": "img",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "3480396",
+      "name": "表情",
+      "font_class": "emotion",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "4011199",
+      "name": "文件",
+      "font_class": "folder",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "551476",
+      "name": "通讯录",
+      "font_class": "contact",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "16370612",
+      "name": "prodmsg",
+      "font_class": "msg",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
       "icon_id": "5327434",
       "name": "登录",
-      "font_class": "denglu",
+      "font_class": "signin",
       "unicode": "e6f0",
       "unicode_decimal": 59120
     },
     {
       "icon_id": "9810503",
       "name": "注册有礼",
-      "font_class": "zhuceyouli",
+      "font_class": "signup",
       "unicode": "e635",
       "unicode_decimal": 58933
     }

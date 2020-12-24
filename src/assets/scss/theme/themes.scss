@@ -1,0 +1,39 @@
+//noinspection CssUnknownTarget
+$themes: (
+    light: (
+      /*background*/
+        bg-color: #f8f7fc,
+        bg-color-card: #fff,
+        bg-color-header: rgba(255, 255, 255, 0.3),
+        background: url("~@images/background/02.jpg") no-repeat center,
+      /*font-color*/
+        font-color: #333,
+        font-color-sub: #a6babd,
+        font-color-content: #aaa,
+      /*border*/
+        border-color: rgba(234, 234, 234, 0.5),
+      /*color*/
+        color-imp: #6abdff,
+        color-female: #ff908b,
+        color-active: #348bff,
+        color-shadow: rgba(0, 0, 0, 0.3),
+    ),
+    dark: (
+        /*background*/
+        bg-color: #f8f7fc,
+        bg-color-card: #fff,
+        bg-color-header: rgba(255, 255, 255, 0.3),
+        background: url("~@images/background/02.jpg") no-repeat center,
+        /*font-color*/
+        font-color: #333,
+        font-color-sub: #a6babd,
+        font-color-content: #aaa,
+        /*border*/
+        border-color: rgba(234, 234, 234, 0.5),
+        /*color*/
+        color-imp: #6abdff,
+        color-female: #ff908b,
+        color-active: #348bff,
+        color-shadow: rgba(0, 0, 0, 0.3),
+    ),
+)

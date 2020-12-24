@@ -27,7 +27,6 @@ $axios.interceptors.response.use((response) => {
     CancelToken.cancel(); // 取消其他正在进行的请求
     Message.error(response.data.message);
     router.push("/login");
-    sessionStorage.removeItem("username");
     return Promise.reject(response);
   }
   return response;

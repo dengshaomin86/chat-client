@@ -1,0 +1,78 @@
+@mixin bg-color() {
+  @include themeify {
+    background-color: themed(bg-color);
+  }
+}
+@mixin bg-color-card() {
+  @include themeify {
+    background-color: themed(bg-color-card);
+  }
+}
+@mixin bg-color-header() {
+  @include themeify {
+    background-color: themed(bg-color-header);
+  }
+}
+@mixin bg-color-active() {
+  @include themeify {
+    background-color: themed(color-active);
+    color: themed(bg-color-card);
+  }
+}
+@mixin bg-img-body() {
+  @include themeify {
+    background: themed(background);
+    background-size: cover;
+  }
+}
+@mixin font-color() {
+  @include themeify {
+    color: themed(font-color);
+  }
+}
+@mixin font-color-sub() {
+  @include themeify {
+    color: themed(font-color-sub);
+  }
+}
+@mixin font-color-content() {
+  @include themeify {
+    color: themed(font-color-content);
+  }
+}
+@mixin border-color() {
+  @include themeify {
+    border-color: themed(border-color);
+  }
+}
+@mixin color-imp() {
+  @include themeify {
+    color: themed(color-imp);
+  }
+}
+@mixin color-female() {
+  @include themeify {
+    color: themed(color-female);
+  }
+}
+@mixin color-active() {
+  @include themeify {
+    color: themed(color-active);
+  }
+}
+@mixin color-shadow() {
+  @include themeify {
+    color: themed(color-shadow);
+  }
+}
+@mixin box-shadow() {
+  @include themeify {
+    box-shadow: 2px 3px 10px 0 themed(color-shadow);
+  }
+}
+@mixin box-shadow-avatar() {
+  @include themeify {
+    box-shadow: 1px 2px 5px 0 themed(color-active);
+    background-color: #fff;
+  }
+}

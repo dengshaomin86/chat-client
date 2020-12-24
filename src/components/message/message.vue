@@ -35,7 +35,6 @@
     methods: {
       signOut() {
         axios.get("/user/signOut").then(res => {
-          sessionStorage.removeItem("username");
           this.$router.push("/login");
         }).catch(err => {
           console.log(err);

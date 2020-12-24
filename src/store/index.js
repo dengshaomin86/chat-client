@@ -1,17 +1,35 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import qs from "qs";
 import types from "./mutation-types.js";
 import api from "@/api";
+import apiUser from "@/api/user";
+import storage from "@/utils/storage";
+import {Message} from "element-ui";
+import themes from "@/utils/themes";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    theme: "", // 主题
     activeChat: {},
     chatList: [],
-    msgList: []
+    msgList: [],
+    userInfoVisible: false,
+    userInfo: {}, // 查看用户的信息
   },
   mutations: {
+    [types.SET_THEME](state, theme) {
+      theme = theme || themes.default;
+      const body = document.getElementsByTagName("body")[0];
+      body.setAttribute("data-theme", theme);
+      storage.local.set({
+        label: "theme",
+        value: theme
+      });
+      state.theme = themes.options.find(item => item.value === theme);
+    },
     [types.CHANGE_ACTIVE_CHAT](state, data) {
       data.tips = false;
       state.activeChat = data;
@@ -36,7 +54,7 @@ export default new Vuex.Store({
       const chatObjIndex = state.chatList.findIndex(item => item.chatId === data[0].chatId);
       const lastMsg = data[data.length - 1];
       lastMsg.tips = data[0].chatId !== state.activeChat.chatId;
-      lastMsg.name = lastMsg.fromUsername === sessionStorage.getItem("username") ? lastMsg.toUsername : lastMsg.fromUsername;
+      lastMsg.name = lastMsg.fromUsername === storage.local.get("username") ? lastMsg.toUsername : lastMsg.fromUsername;
       if (lastMsg.chatType === "2") lastMsg.name = "默认群聊";
       if (chatObjIndex !== -1) {
         // 更新最新消息，红点显示
@@ -48,7 +66,14 @@ export default new Vuex.Store({
     },
     [types.CLEAR_MSG_LIST](state) {
       state.msgList = [];
-    }
+    },
+    [types.CHANGE_USER_INFO](state, data) {
+      state.userInfo = data || {};
+    },
+    [types.CHANGE_USER_INFO_VISIBLE](state, flag) {
+      if (flag) state.userInfo = {};
+      state.userInfoVisible = flag;
+    },
   },
   actions: {
     [types.CHANGE_ACTIVE_CHAT]({commit}, data) {
@@ -69,7 +94,23 @@ export default new Vuex.Store({
     },
     [types.CLEAR_MSG_LIST]({commit}) {
       commit(types.CLEAR_MSG_LIST);
-    }
+    },
+    getUserInfo({commit}, username) {
+      commit(types.CHANGE_USER_INFO_VISIBLE, true);
+
+      const params = {
+        username: username || ""
+      };
+      apiUser.getInfo(qs.stringify(params)).then(res => {
+        if (!res.data.flag) {
+          Message.auto(res.data);
+          return;
+        }
+        commit(types.CHANGE_USER_INFO, res.data.data);
+      }).catch(err => {
+        console.log(err);
+      });
+    },
   },
   modules: {
   }

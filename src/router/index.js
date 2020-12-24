@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import axios from "@/utils/axios";
+import storage from "@/utils/storage";
 
 Vue.use(Router);
 
@@ -17,8 +18,6 @@ const defaultRouter = context.keys().map(key => {
   };
 });
 
-console.log(document.cookie);
-
 const router = new Router({
   mode: "history",
   base: process.env.BASE_URL,
@@ -34,7 +33,7 @@ const router = new Router({
 const pass = ["/login"];
 
 router.beforeEach((to, from, next) => {
-  const username = sessionStorage.getItem("username");
+  const username = storage.local.get("username");
   if (!username && !pass.includes(to.path)) {
     next({
       path: "/login"

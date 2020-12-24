@@ -40,9 +40,6 @@
       return {};
     },
     computed: {
-      username() {
-        return sessionStorage.getItem("username");
-      },
       ...mapState(["activeChat", "msgList"])
     },
     watch: {
@@ -79,12 +76,7 @@
         });
       },
       viewUser(item) {
-        this.$router.push({
-          path: "/userInfo",
-          query: {
-            username: item.fromUsername
-          }
-        });
+        this.getUserInfo(item.fromUsername);
       },
       formatDate(date) {
         return moment(date).format("YYYY/MM/DD HH:mm:ss");
@@ -95,7 +87,8 @@
       },
       ...mapActions([
         "updateMsgList",
-        "clearMsgList"
+        "clearMsgList",
+        "getUserInfo"
       ])
     }
   };
@@ -128,8 +121,9 @@
           background-color: #cdcdcd;
           display: inline-block;
           font-size: 12px;
-          padding: 2px 4px;
-          color: #333;
+          padding: 3px 6px;
+          color: #fff;
+          border-radius: 4px;
         }
       }
 
@@ -155,7 +149,7 @@
         .username {
           font-size: 12px;
           color: #999;
-          margin-bottom: 2px;
+          margin-bottom: 6px;
         }
 
         .content {
@@ -163,10 +157,11 @@
           padding: 10px;
           position: relative;
           word-break: break-all;
+          border-radius: 0 50px 50px 50px;
 
           &:before {
             content: "";
-            display: inline-block;
+            display: none;
             border: 5px solid;
             border-color: transparent #fff transparent transparent;
             position: absolute;
@@ -187,6 +182,7 @@
         }
         .content {
           background-color: $rightBg;
+          border-radius: 50px 0 50px 50px;
           &:before {
             border-color: transparent transparent transparent $rightBg;
             position: absolute;

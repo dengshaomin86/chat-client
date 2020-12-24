@@ -3,8 +3,8 @@
     <div class="avatar-con" @click="user">
       <avatar :size="40" shape="square" :src="avatar"></avatar>
     </div>
-    <i class="icon el-icon-chat-line-round active" title="聊天"></i>
-    <i class="icon el-icon-notebook-1" title="通讯录" @click="showContact"></i>
+    <i class="iconfont icon-msg active" title="聊天"></i>
+    <i class="iconfont icon-contact" title="通讯录" @click="showContact"></i>
 
     <el-dialog title="通讯录"
                :visible.sync="visible"
@@ -102,17 +102,10 @@
         addReqTableData: []
       };
     },
-    computed: {
-      username() {
-        return sessionStorage.getItem("username");
-      },
-      avatar() {
-        return sessionStorage.getItem("avatar");
-      }
-    },
+    computed: {},
     methods: {
       user() {
-        this.$router.push("/userInfo");
+        this.getUserInfo(this.username);
       },
       getContactList() {
         api.getContactList().then(res => {
@@ -231,7 +224,8 @@
       },
       ...mapActions([
         "getChatList",
-        "addChatList"
+        "addChatList",
+        "getUserInfo"
       ])
     },
     mounted() {
@@ -239,6 +233,7 @@
   };
 </script>
 
+<!--suppress CssInvalidPseudoSelector -->
 <style scoped lang="scss">
   .aside-menu {
     height: 100%;
@@ -253,7 +248,7 @@
       cursor: pointer;
     }
 
-    .icon {
+    .iconfont {
       font-size: 30px;
       color: #999;
       margin-top: 30px;

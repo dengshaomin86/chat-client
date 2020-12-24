@@ -1,10 +1,10 @@
 <template>
   <div class="entry" v-if="activeChat.chatId" @keyup.enter="send">
     <div class="opt">
-      <i class="el-icon-picture-outline-round"></i>
-      <i class="el-icon-folder"></i>
-      <i class="el-icon-crop"></i>
-      <i class="el-icon-chat-dot-round"></i>
+      <i class="iconfont icon-img"></i>
+      <i class="iconfont icon-folder"></i>
+      <i class="iconfont icon-cut"></i>
+      <i class="iconfont icon-record"></i>
     </div>
     <textarea v-model="msg"></textarea>
     <div class="sendBtn">
@@ -24,9 +24,6 @@
       };
     },
     computed: {
-      username() {
-        return sessionStorage.getItem("username");
-      },
       ...mapState(["activeChat"])
     },
     sockets: {
@@ -96,8 +93,8 @@
       i {
         font-size: 20px;
         margin-right: 15px;
-        cursor: pointer;
         &:hover {
+          cursor: pointer;
           color: #0077aa;
         }
       }

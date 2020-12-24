@@ -1,0 +1,29 @@
+// 清除margin溢出
+@mixin clear-overflow() {
+  &:before, &:after {
+    display: table;
+    content: "";
+  }
+}
+
+// 按钮激活
+@mixin btn-active() {
+  transition: 0.1s;
+  &:active {
+    opacity: 0.7;
+    transition: 0s;
+  }
+}
+
+// 文本溢出隐藏
+@mixin text-column($num: 1) {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: $num;
+  -webkit-box-orient: vertical;
+}
+
+// 圆角
+@mixin border-radius() {
+  border-radius: 6px;
+}
