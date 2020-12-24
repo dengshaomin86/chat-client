@@ -102,9 +102,6 @@ export default new Vuex.Store({
         console.log(err);
       });
     },
-    [types.ADD_CHAT_LIST]({commit}, data) {
-      commit(types.ADD_CHAT_LIST, data);
-    },
     [types.UPDATE_MSG_LIST]({commit}, data) {
       commit(types.UPDATE_MSG_LIST, data);
     },

@@ -85,14 +85,14 @@
     {
       "icon_id": "551476",
       "name": "通讯录",
-      "font_class": "contact",
+      "font_class": "tab-friend",
       "unicode": "e612",
       "unicode_decimal": 58898
     },
     {
       "icon_id": "16370612",
       "name": "prodmsg",
-      "font_class": "msg",
+      "font_class": "tab-chat",
       "unicode": "e60e",
       "unicode_decimal": 58894
     },

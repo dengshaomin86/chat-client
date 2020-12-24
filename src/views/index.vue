@@ -1,36 +1,43 @@
 <template>
   <div class="container">
-    <aside-menu></aside-menu>
-    <record></record>
-    <message></message>
+    <!--菜单栏-->
+    <asideMenu v-model="active"></asideMenu>
+    <keep-alive>
+      <component :is="active"></component>
+    </keep-alive>
+    <!--查看用户信息-->
     <el-drawer title=""
                direction="ltr"
                size="600px"
                :append-to-body="true"
                :visible.sync="userInfoVisible"
                :before-close="handleCloseUserInfo">
-      <userInfo></userInfo>
+      <userInfo @sendMsg="sendMsg"></userInfo>
     </el-drawer>
   </div>
 </template>
 
 <script>
   import {mapState, mapMutations} from "vuex";
+  import {pick} from "lodash";
+  import api from "@/api";
   import asideMenu from "@/components/aside-menu";
-  import record from "@/components/record/record";
-  import message from "@/components/message/message";
-  import userInfo from "@/components/user-info";
+  import tabChat from "@/components/tab-chat";
+  import tabFriend from "@/components/tab-friend";
+  import userInfo from "@common/user-info";
 
   export default {
     name: "index",
     components: {
       asideMenu,
-      record,
-      message,
+      tabChat,
+      tabFriend,
       userInfo,
     },
     data() {
-      return {};
+      return {
+        active: "tab-chat"
+      };
     },
     computed: {
       ...mapState(["userInfoVisible", "userInfo"])
@@ -41,7 +48,18 @@
       handleCloseUserInfo(done) {
         this.changeUserInfoVisible(false);
       },
-      ...mapMutations(["changeUserInfoVisible"])
+      // 发消息
+      sendMsg() {
+        const data = pick(this.userInfo, ["username", "userId"]);
+        data.type = "1";
+        api.addChatList(data).then(res => {
+          this.active = "tab-chat";
+          this.changeUserInfoVisible(false);
+          this.addChatList(res.data.data);
+        }).catch(() => {
+        });
+      },
+      ...mapMutations(["changeUserInfoVisible", "addChatList"])
     },
     mounted() {
       this.init();
@@ -57,10 +75,6 @@
 
     .aside-menu {
       flex: 0 0 60px;
-    }
-
-    .record {
-      flex: 0 0 250px;
     }
   }
 </style>

@@ -5,6 +5,7 @@
         <avatar :size="100" :upload="isSelf && uploadCB" :src="form.avatar"></avatar>
         <template v-if="!isSelf">
           <i class="iconfont icon-friend" v-if="form.friendStatus==='1'" title="好友"></i>
+          <i class="iconfont icon-tab-chat" v-if="form.friendStatus==='1'" title="发消息" @click="sendMsg"></i>
           <i class="iconfont icon-add-friend"
              :class="{'disabled':form.friendStatus==='2'}"
              :title="form.friendStatus|addFriendText"
@@ -191,6 +192,10 @@
           console.log(err);
         });
       },
+      // 发消息
+      sendMsg() {
+        this.$emit("sendMsg");
+      },
       ...mapMutations(["changeUserInfo", "setPersonal"])
     },
     mounted() {
@@ -238,8 +243,9 @@
           }
           .iconfont {
             font-size: 30px;
+            margin-right: 10px;
             @include color-imp;
-            &.icon-add-friend {
+            &.icon-add-friend, &.icon-tab-chat {
               &:hover {
                 cursor: pointer;
                 @include color-active;
