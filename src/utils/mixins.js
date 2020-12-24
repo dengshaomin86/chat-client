@@ -1,14 +1,12 @@
 import moment from "moment";
-import storage from "@/utils/storage";
+import {mapState} from "vuex";
 
 export default {
   computed: {
-    username() {
-      return storage.local.get("username");
-    },
-    avatar() {
-      return storage.local.get("avatar");
-    }
+    ...mapState({
+      username: state => state.personal.username,
+      avatar: state => state.personal.avatar,
+    })
   },
   filters: {
     formatDate(data, pattern = "YYYY/MM/DD, HH:mm:ss") {

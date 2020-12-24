@@ -16,6 +16,7 @@ export default new Vuex.Store({
     activeChat: {},
     chatList: [],
     msgList: [],
+    personal: {}, // 本人信息
     userInfoVisible: false,
     userInfo: {}, // 查看用户的信息
   },
@@ -66,6 +67,21 @@ export default new Vuex.Store({
     },
     [types.CLEAR_MSG_LIST](state) {
       state.msgList = [];
+    },
+    [types.SET_PERSONAL](state, data) {
+      data = data || {};
+      state.personal = data;
+      const {avatar, username} = data;
+      storage.local.set({
+        label: "avatar",
+        value: avatar,
+        type: "user"
+      });
+      storage.local.set({
+        label: "username",
+        value: username,
+        type: "user"
+      });
     },
     [types.CHANGE_USER_INFO](state, data) {
       state.userInfo = data || {};

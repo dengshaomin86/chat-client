@@ -1,6 +1,6 @@
 <template>
   <div class="avatar" :style="style" @click="choose">
-    <input type="file" hidden ref="file" @change="uploadFile">
+    <input type="file" hidden ref="file" :accept="accept" @change="uploadFile">
   </div>
 </template>
 
@@ -33,7 +33,15 @@
         const styles = [`width:${this.size}px;height:${this.size}px;background-image: url(${src});border-radius:${radius}`];
         if (this.upload) styles.push("cursor: pointer");
         return styles.join(";");
-      }
+      },
+      // 限制上传文件格式
+      limitFileType() {
+        const arr = ["jpeg", "gif", "png"];
+        return arr.map(item => `image/${item}`);
+      },
+      accept() {
+        return this.limitFileType.join(", ");
+      },
     },
     methods: {
       choose() {
@@ -43,6 +51,10 @@
       uploadFile() {
         const file = this.$refs.file.files[0];
         if (!file) return;
+        if (!this.limitFileType.includes(file.type)) {
+          this.$message.error("文件格式不支持");
+          return;
+        }
         const param = new FormData(); // 创建form对象
         param.append("avatar", file, file.name); // 通过append向form对象添加数据
         const loading = this.$loading({

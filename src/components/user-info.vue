@@ -2,8 +2,8 @@
   <div class="user-info" v-if="userInfo.username">
     <el-form ref="form" :model="form" label-width="80px">
       <el-form-item label="" class="el-form-item-avatar">
-        <avatar :size="100" :upload="!isSelf && uploadCB" :src="form.avatar"></avatar>
-        <template>
+        <avatar :size="100" :upload="isSelf && uploadCB" :src="form.avatar"></avatar>
+        <template v-if="!isSelf">
           <i class="iconfont icon-friend" v-if="form.friendStatus==='1'" title="好友"></i>
           <i class="iconfont icon-add-friend"
              :class="{'disabled':form.friendStatus==='2'}"
@@ -56,7 +56,6 @@
   import qs from "qs";
   import api from "@/api";
   import apiUser from "@/api/user";
-  import storage from "@/utils/storage";
   import {mapState, mapMutations} from "vuex";
 
   export default {
@@ -150,7 +149,7 @@
       },
       // 上传头像回调
       uploadCB(src) {
-        this.$set(this.form, "avatar", src);
+        this.submitEdit("avatar", src);
       },
       // 编辑
       edit(title, label) {
@@ -186,17 +185,13 @@
           this.$message.auto(res.data);
           if (res.data.flag) {
             this.changeUserInfo(res.data.data);
-            storage.local.set({
-              label: "avatar",
-              value: this.form.avatar,
-              type: "user"
-            });
+            this.setPersonal(res.data.data);
           }
         }).catch(err => {
           console.log(err);
         });
       },
-      ...mapMutations(["changeUserInfo"])
+      ...mapMutations(["changeUserInfo", "setPersonal"])
     },
     mounted() {
       this.init();

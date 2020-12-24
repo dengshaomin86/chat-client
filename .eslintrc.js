@@ -20,6 +20,7 @@ module.exports = {
     semi: [2, "always"],
     "space-before-function-paren": 0,
     "spaced-comment": [0, "never"],
+    "no-unreachable": [0, "never"],
     indent: 0,
     "comma-dangle": ["error", {
       arrays: "never",

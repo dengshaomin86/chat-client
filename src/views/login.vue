@@ -45,6 +45,7 @@
 <script>
   import qs from "qs";
   import storage from "@/utils/storage";
+  import {mapMutations} from "vuex";
 
   export default {
     name: "login",
@@ -64,7 +65,8 @@
     },
     methods: {
       init() {
-        storage.local.removeUser("data_user");
+        this.$socket.disconnect();
+        storage.local.removeUser();
       },
       signInAction() {
         if (!this.signIn.username) return;
@@ -73,16 +75,7 @@
           this.$message.auto(res.data);
           if (!res.data.flag) return;
           this.connectSocket();
-          storage.local.set({
-            label: "username",
-            value: this.signIn.username,
-            type: "user"
-          });
-          storage.local.set({
-            label: "avatar",
-            value: res.data.user.avatar,
-            type: "user"
-          });
+          this.setPersonal(res.data.user);
           Object.assign(this.$data.signIn, this.$options.data().signIn);
           this.$router.push("/");
         }).catch(err => {
@@ -105,7 +98,8 @@
       connectSocket() {
         this.$socket.disconnect();
         this.$socket.connect();
-      }
+      },
+      ...mapMutations(["setPersonal"])
     },
     created() {
     },

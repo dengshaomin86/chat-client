@@ -34,8 +34,9 @@
     methods: {
       init() {
         this.setTheme(storage.local.get("theme"));
+        this.setPersonal(storage.local.get("data_user"));
       },
-      ...mapMutations(["setTheme"])
+      ...mapMutations(["setTheme", "setPersonal"])
     },
     mounted() {
       this.init();

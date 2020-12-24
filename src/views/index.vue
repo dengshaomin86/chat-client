@@ -30,27 +30,16 @@
       userInfo,
     },
     data() {
-      return {
-        list: [],
-        readonly: true,
-      };
+      return {};
     },
     computed: {
       ...mapState(["userInfoVisible", "userInfo"])
     },
     methods: {
       init() {
-        this.getList();
-      },
-      getList() {
-        this.list = this.$router.options.routes.map(item => item.path);
       },
       handleCloseUserInfo(done) {
         this.changeUserInfoVisible(false);
-      },
-      // 上传头像回调
-      uploadCB(src) {
-        this.$set(this.form, "avatar", src);
       },
       ...mapMutations(["changeUserInfoVisible"])
     },
