@@ -8,4 +8,5 @@ export default {
   SET_PERSONAL: "setPersonal",
   CHANGE_USER_INFO: "changeUserInfo",
   CHANGE_USER_INFO_VISIBLE: "changeUserInfoVisible",
+  CHANGE_FRIEND_REQUEST: "changeFriendRequest",
 };

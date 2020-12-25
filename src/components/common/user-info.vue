@@ -4,15 +4,22 @@
       <el-form-item label="" class="el-form-item-avatar">
         <avatar :size="100" :upload="isSelf && uploadCB" :src="form.avatar"></avatar>
         <template v-if="!isSelf">
-          <i class="iconfont icon-friend" v-if="form.friendStatus==='1'" title="好友"></i>
+          <el-popconfirm
+            @onConfirm="removeFriend"
+            confirm-button-text='是的'
+            cancel-button-text='再想想'
+            title="确认解除好友关系吗？">
+            <i class="iconfont icon-friend" slot="reference" v-if="form.friendStatus==='1'" title="好友"></i>
+          </el-popconfirm>
           <i class="iconfont icon-tab-chat" v-if="form.friendStatus==='1'" title="发消息" @click="sendMsg"></i>
           <i class="iconfont icon-add-friend"
-             :class="{'disabled':form.friendStatus==='2'}"
+             :class="{'disabled':['2','3'].includes(form.friendStatus)}"
              :title="form.friendStatus|addFriendText"
-             v-if="['0','2'].includes(form.friendStatus)"
+             v-if="['0','2','3','4'].includes(form.friendStatus)"
              @click="addFriend"></i>
         </template>
       </el-form-item>
+      <el-divider><i class="el-icon-monitor"></i></el-divider>
       <el-form-item label="用户名">
         <span>{{form.username}}</span>
         <i class="iconfont" v-bind="sexAttrs" @click="editSex"></i>
@@ -55,8 +62,8 @@
 <script>
   import {cloneDeep} from "lodash";
   import qs from "qs";
-  import api from "@/api";
   import apiUser from "@/api/user";
+  import apiFriend from "@/api/friend";
   import {mapState, mapMutations} from "vuex";
 
   export default {
@@ -107,7 +114,10 @@
       addFriendText(status) {
         const map = new Map();
         map.set("0", "添加好友");
-        map.set("2", "待同意");
+        map.set("1", "已添加");
+        map.set("2", "待对方确认");
+        map.set("3", "待您确认");
+        map.set("4", "添加好友");
         return map.get(status);
       },
     },
@@ -116,7 +126,7 @@
       },
       // 发起添加好友
       addFriend() {
-        if (this.form.friendStatus !== "0") return;
+        if (!["0", "4"].includes(this.form.friendStatus)) return;
         const item = this.form;
         this.$prompt("", "留言", {
           confirmButtonText: "确定",
@@ -129,11 +139,11 @@
             return;
           }
           const params = {
-            username: item.username,
-            userId: item.userId,
+            toUsername: item.username,
+            toUserId: item.userId,
             msg: value
           };
-          api.addContactFriend(params).then(res => {
+          apiFriend.add(params).then(res => {
             this.$message.auto(res.data);
             if (!res.data.flag) return;
             const {friendStatus, friendStatusText} = res.data;
@@ -196,6 +206,16 @@
       sendMsg() {
         this.$emit("sendMsg");
       },
+      // 删除好友
+      removeFriend() {
+        apiFriend.remove(this.userInfo.userId).then(r => {
+          this.$message.auto(r.data);
+          if (r.data.flag) {
+            this.$emit("close");
+          }
+        }).catch(e => {
+        });
+      },
       ...mapMutations(["changeUserInfo", "setPersonal"])
     },
     mounted() {
@@ -219,20 +239,22 @@
 
       .el-form-item {
         font-size: 18px;
-        span {
-          vertical-align: middle;
-          +.iconfont {
-            margin-left: 15px;
-            font-size: 18px;
+        &:not(:first-of-type) {
+          span {
             vertical-align: middle;
-            @include color-imp;
-            &.icon-female {
-              @include color-female;
-            }
-            &.icon-edit, &.editable {
-              &:hover {
-                cursor: pointer;
-                @include color-active;
+            + .iconfont {
+              margin-left: 15px;
+              font-size: 18px;
+              vertical-align: middle;
+              @include color-imp;
+              &.icon-female {
+                @include color-female;
+              }
+              &.icon-edit, &.editable {
+                &:hover {
+                  cursor: pointer;
+                  @include color-active;
+                }
               }
             }
           }
@@ -245,15 +267,13 @@
             font-size: 30px;
             margin-right: 10px;
             @include color-imp;
-            &.icon-add-friend, &.icon-tab-chat {
-              &:hover {
-                cursor: pointer;
-                @include color-active;
-              }
-              &.disabled {
-                cursor: not-allowed;
-                opacity: 0.5;
-              }
+            &:hover {
+              cursor: pointer;
+              @include color-active;
+            }
+            &.disabled {
+              cursor: not-allowed;
+              opacity: 0.5;
             }
           }
         }

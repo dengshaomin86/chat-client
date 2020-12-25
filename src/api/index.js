@@ -20,13 +20,6 @@ export default {
     });
   },
 
-  // 获取联系人列表
-  getContactList(data) {
-    return axios.request("/chat/getContactList", {
-      params: data
-    });
-  },
-
   // 添加联系人
   addContactFriend(data) {
     return axios.request("/chat/addContactFriend", {

@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1003098",
+      "name": "dot",
+      "font_class": "dot",
+      "unicode": "e634",
+      "unicode_decimal": 58932
+    },
+    {
       "icon_id": "1004596",
       "name": "已加好友",
       "font_class": "friend",

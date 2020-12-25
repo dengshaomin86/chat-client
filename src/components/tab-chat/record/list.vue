@@ -28,7 +28,7 @@
 
 <script>
   import moment from "moment";
-  import {mapState, mapActions} from "vuex";
+  import {mapState, mapActions, mapMutations} from "vuex";
 
   export default {
     name: "list",
@@ -68,10 +68,8 @@
       changeActiveChatAction(item) {
         this.changeActiveChat(item);
       },
-      ...mapActions([
-        "changeActiveChat",
-        "getChatList"
-      ])
+      ...mapMutations(["changeActiveChat"]),
+      ...mapActions(["getChatList"])
     },
     mounted() {
       this.init();
@@ -89,9 +87,9 @@
       border-bottom: 1px solid #ccc;
       display: flex;
       cursor: pointer;
-      transition: 0.5s;
+      transition: 0.2s;
       position: relative;
-      &.active {
+      &.active, &:hover {
         background-color: #ccc;
       }
       .tips {

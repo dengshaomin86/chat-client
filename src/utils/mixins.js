@@ -5,6 +5,7 @@ export default {
   computed: {
     ...mapState({
       username: state => state.personal.username,
+      userId: state => state.personal.userId,
       avatar: state => state.personal.avatar,
     })
   },

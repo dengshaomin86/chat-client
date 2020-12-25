@@ -1,32 +1,7 @@
 <template>
   <div class="friend">
     <search v-model="keyword" title="添加好友" @action="showAddFriend"></search>
-    <list :keyword="keyword"></list>
-
-    <el-dialog title="通讯录"
-               :visible.sync="visible"
-               width="30%"
-               :before-close="handleClose">
-      <div class="btn-con">
-        <el-badge :value="addReqNum" :hidden="!addReqNum">
-          <el-button size="small" @click.stop="showAddReq">好友请求</el-button>
-        </el-badge>
-        <el-button size="small" type="primary" @click.stop="showAddFriend">添加好友</el-button>
-      </div>
-
-      <el-table :data="tableData"
-                border
-                style="width: 100%">
-        <el-table-column prop="username"
-                         label="用户名">
-        </el-table-column>
-        <el-table-column label="操作" width="100" align="center">
-          <template slot-scope="scope">
-            <el-button @click="sendMsg(scope.row)" type="text" icon="el-icon-chat-dot-square">发消息</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-dialog>
+    <list :keyword="keyword" @showRequest="showAddReq"></list>
 
     <el-dialog title="添加好友"
                :visible.sync="visibleAdd"
@@ -68,11 +43,11 @@
         </el-table-column>
         <el-table-column label="操作" width="160" align="center">
           <template slot-scope="scope">
-            <template v-if="scope.row.status === '0'">
+            <template v-if="scope.row.friendStatus === '3'">
               <el-button @click="refuse(scope.row)" type="text" icon="el-icon-close">拒绝</el-button>
               <el-button @click="agree(scope.row)" type="text" icon="el-icon-check">同意</el-button>
             </template>
-            <span v-else>{{scope.row.statusText}}</span>
+            <span v-else>{{scope.row.friendStatusText}}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -84,8 +59,8 @@
   import list from "./list";
   import search from "@common/search";
   import api from "@/api";
-  import _ from "lodash";
-  import {mapActions} from "vuex";
+  import apiFriend from "@/api/friend";
+  import {mapActions, mapMutations} from "vuex";
 
   export default {
     name: "friend",
@@ -98,9 +73,6 @@
         keyword: "",
         addBtnLoading: false,
 
-        visible: false,
-        addReqNum: 0,
-        tableData: [],
         visibleAdd: false,
         searchKeyword: "",
         searchFriendTableData: [],
@@ -109,36 +81,20 @@
       };
     },
     methods: {
-      handleClose() {
-        this.visible = false;
-      },
-      sendMsg(item) {
-        const data = _.pick(item, ["username", "userId"]);
-        data.type = "1";
-        api.addChatList(data).then(res => {
-          this.visible = false;
-          this.addChatList(res.data.data);
-        }).catch(err => {
-          console.log(err);
-        });
-      },
       // 显示好友请求
       showAddReq() {
-        this.handleClose();
-        this.getAddReqList();
+        this.getFriendRequestList();
         this.visibleAddReq = true;
       },
       // 获取好友请求列表
-      getAddReqList() {
-        api.getAddReqList().then(res => {
+      getFriendRequestList() {
+        apiFriend.requestList().then(res => {
           this.addReqTableData = res.data.list;
-        }).catch(err => {
-          console.log(err);
+        }).catch(e => {
         });
       },
       // 显示添加好友
       showAddFriend() {
-        this.handleClose();
         this.visibleAdd = true;
       },
       // 关闭添加好友
@@ -173,15 +129,15 @@
             return;
           }
           const params = {
-            username: item.username,
-            userId: item.userId,
+            toUsername: item.username,
+            toUserId: item.userId,
             msg: value
           };
-          api.addContactFriend(params).then(res => {
-            this.$message[res.data.flag ? "success" : "error"](res.data.message);
+          apiFriend.add(params).then(res => {
+            this.$message.auto(res.data);
             if (!res.data.flag) return;
-            item.status = res.data.status;
-            item.statusText = res.data.statusText;
+            item.friendStatus = res.data.friendStatus;
+            item.friendStatusText = res.data.friendStatusText;
           }).catch(err => {
             console.log(err);
           });
@@ -194,31 +150,37 @@
       },
       // 拒绝好友请求
       refuse(item) {
-        api.refuseAddFriendReq(item).then(res => {
-          this.$message[res.data.flag ? "success" : "error"](res.data.message);
+        apiFriend.refuse({
+          toUserId: item.userId,
+          toUsername: item.username,
+        }).then(res => {
+          this.$message.auto(res.data);
           if (!res.data.flag) return;
-          item.status = res.data.status;
-          item.statusText = res.data.statusText;
-        }).catch(err => {
-          console.log(err);
+          item.friendStatus = res.data.friendStatus;
+          item.friendStatusText = res.data.friendStatusText;
+        }).catch(e => {
         });
       },
       // 同意好友请求
       agree(item) {
-        api.agreeAddFriendReq(item).then(res => {
-          this.$message[res.data.flag ? "success" : "error"](res.data.message);
+        apiFriend.agree({
+          toUserId: item.userId,
+          toUsername: item.username,
+        }).then(res => {
+          this.$message.auto(res.data);
           if (!res.data.flag) return;
-          item.status = res.data.status;
-          item.statusText = res.data.statusText;
-        }).catch(err => {
-          console.log(err);
+          item.friendStatus = res.data.friendStatus;
+          item.friendStatusText = res.data.friendStatusText;
+        }).catch(e => {
         });
       },
-      ...mapActions([
-        "getChatList",
-        "addChatList",
-        "getUserInfo"
-      ])
+      ...mapMutations(["addChatList", "changeFriendRequest"]),
+      ...mapActions(["getChatList", "getUserInfo"])
+    },
+    watch: {
+      visibleAddReq(n, o) {
+        if (n) this.changeFriendRequest(false);
+      }
     },
   };
 </script>

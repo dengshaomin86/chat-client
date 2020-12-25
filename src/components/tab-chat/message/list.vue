@@ -30,7 +30,7 @@
 </template>
 
 <script>
-  import {mapState, mapActions} from "vuex";
+  import {mapState, mapActions, mapMutations} from "vuex";
   import api from "@/api";
   import moment from "moment";
 
@@ -66,8 +66,7 @@
           chatId: this.activeChat.chatId
         }).then(res => {
           this.updateMsgList(res.data.list);
-        }).catch(err => {
-          console.log(err);
+        }).catch(e => {
         });
       },
       scrollToView() {
@@ -76,7 +75,7 @@
         });
       },
       viewUser(item) {
-        this.getUserInfo(item.fromUsername);
+        this.getUserInfo(item.fromUserId);
       },
       formatDate(date) {
         return moment(date).format("YYYY/MM/DD HH:mm:ss");
@@ -85,11 +84,8 @@
         if (idx === 0) return true;
         return new Date(msgDate).getTime() - new Date(this.msgList[idx - 1].msgDate).getTime() > 15 * 60 * 1000;
       },
-      ...mapActions([
-        "updateMsgList",
-        "clearMsgList",
-        "getUserInfo"
-      ])
+      ...mapMutations(["updateMsgList", "clearMsgList"]),
+      ...mapActions(["getUserInfo"])
     }
   };
 </script>

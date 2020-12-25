@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import qs from "qs";
 import types from "./mutation-types.js";
 import api from "@/api";
 import apiUser from "@/api/user";
@@ -19,6 +18,7 @@ export default new Vuex.Store({
     personal: {}, // 本人信息
     userInfoVisible: false,
     userInfo: {}, // 查看用户的信息
+    friendRequest: false, // 好友请求提示
   },
   mutations: {
     [types.SET_THEME](state, theme) {
@@ -71,7 +71,7 @@ export default new Vuex.Store({
     [types.SET_PERSONAL](state, data) {
       data = data || {};
       state.personal = data;
-      const {avatar, username} = data;
+      const {avatar, username, userId} = data;
       storage.local.set({
         label: "avatar",
         value: avatar,
@@ -82,6 +82,11 @@ export default new Vuex.Store({
         value: username,
         type: "user"
       });
+      storage.local.set({
+        label: "userId",
+        value: userId,
+        type: "user"
+      });
     },
     [types.CHANGE_USER_INFO](state, data) {
       state.userInfo = data || {};
@@ -90,41 +95,28 @@ export default new Vuex.Store({
       if (flag) state.userInfo = {};
       state.userInfoVisible = flag;
     },
+    [types.CHANGE_FRIEND_REQUEST](state, flag) {
+      state.friendRequest = flag;
+    },
   },
   actions: {
-    [types.CHANGE_ACTIVE_CHAT]({commit}, data) {
-      commit(types.CHANGE_ACTIVE_CHAT, data);
-    },
     [types.GET_CHAT_LIST]({commit}) {
       api.getChatList().then(res => {
         commit(types.GET_CHAT_LIST, res.data.list);
-      }).catch(err => {
-        console.log(err);
+      }).catch(e => {
       });
     },
-    [types.UPDATE_MSG_LIST]({commit}, data) {
-      commit(types.UPDATE_MSG_LIST, data);
-    },
-    [types.CLEAR_MSG_LIST]({commit}) {
-      commit(types.CLEAR_MSG_LIST);
-    },
-    getUserInfo({commit}, username) {
+    getUserInfo({commit}, userId) {
       commit(types.CHANGE_USER_INFO_VISIBLE, true);
-
-      const params = {
-        username: username || ""
-      };
-      apiUser.getInfo(qs.stringify(params)).then(res => {
+      apiUser.getInfo(userId).then(res => {
         if (!res.data.flag) {
           Message.auto(res.data);
           return;
         }
         commit(types.CHANGE_USER_INFO, res.data.data);
-      }).catch(err => {
-        console.log(err);
+      }).catch(e => {
       });
     },
   },
-  modules: {
-  }
+  modules: {}
 });

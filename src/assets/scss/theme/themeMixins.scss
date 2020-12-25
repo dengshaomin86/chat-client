@@ -60,6 +60,11 @@
     color: themed(color-active);
   }
 }
+@mixin color-tips() {
+  @include themeify {
+    color: themed(color-tips);
+  }
+}
 @mixin color-shadow() {
   @include themeify {
     color: themed(color-shadow);

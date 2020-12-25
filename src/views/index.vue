@@ -12,7 +12,7 @@
                :append-to-body="true"
                :visible.sync="userInfoVisible"
                :before-close="handleCloseUserInfo">
-      <userInfo @sendMsg="sendMsg"></userInfo>
+      <userInfo @sendMsg="sendMsg" @close="handleCloseUserInfo"></userInfo>
     </el-drawer>
   </div>
 </template>
