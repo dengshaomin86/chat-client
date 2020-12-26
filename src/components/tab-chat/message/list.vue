@@ -2,8 +2,8 @@
   <ul class="list" ref="list">
     <li v-for="(item, idx) in msgList"
         :key="idx" :class="{'r':item.fromUsername===username}">
-      <div class="msg-date" v-show="showDate(item.msgDate, idx)">
-        <p>{{formatDate(item.msgDate)}}</p>
+      <div class="msg-date" v-show="showDate(item.createTime, idx)">
+        <p>{{formatDate(item.createTime)}}</p>
       </div>
       <div class="msg-con">
         <div class="container" v-if="item.fromUsername===username">
@@ -62,6 +62,24 @@
       getMsgList() {
         this.clearMsgList();
         if (!this.activeChat.chatId) return;
+        switch (this.activeChat.chatType) {
+          case "1":
+            this.getSingleRecord();
+            break;
+          case "2":
+            this.getGroupRecord();
+            break;
+        }
+      },
+      // 获取群组消息记录
+      getGroupRecord() {
+        apiChat.getGroupRecord(this.activeChat.chatId).then(res => {
+          this.updateMsgList(res.data.list);
+        }).catch(e => {
+        });
+      },
+      // 获取单聊消息记录
+      getSingleRecord() {
         apiChat.getMsgList({
           chatId: this.activeChat.chatId
         }).then(res => {
@@ -82,9 +100,9 @@
       formatDate(date) {
         return moment(date).format("YYYY/MM/DD HH:mm:ss");
       },
-      showDate(msgDate, idx) {
+      showDate(createTime, idx) {
         if (idx === 0) return true;
-        return new Date(msgDate).getTime() - new Date(this.msgList[idx - 1].msgDate).getTime() > 15 * 60 * 1000;
+        return new Date(createTime).getTime() - new Date(this.msgList[idx - 1].createTime).getTime() > 15 * 60 * 1000;
       },
       ...mapMutations(["updateMsgList", "clearMsgList"]),
       ...mapActions(["getUserInfo"])

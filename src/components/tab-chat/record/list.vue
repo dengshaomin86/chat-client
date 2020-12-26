@@ -18,7 +18,7 @@
           </p>
         </div>
         <div class="r">
-          <p class="time">{{renderDate(item.msgDate)}}</p>
+          <p class="time">{{item.createTime|formatDate}}</p>
         </div>
       </div>
       <i class="iconfont icon-dot" v-if="item.tips"></i>
@@ -47,6 +47,12 @@
         return this.chatList.filter(item => item.name.indexOf(this.keyword) !== -1);
       },
       ...mapState(["activeChat", "chatList"])
+    },
+    filters: {
+      formatDate(data, pattern = "HH:mm") {
+        data = Number(data);
+        return moment(Number(data)).format(pattern);
+      },
     },
     watch: {
       chatList: {

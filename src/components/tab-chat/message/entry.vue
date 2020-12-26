@@ -1,12 +1,12 @@
 <template>
-  <div class="entry" v-if="activeChat.chatId" @keyup.enter="send">
+  <div class="entry" v-if="activeChat.chatId">
     <div class="opt">
       <i class="iconfont icon-img"></i>
       <i class="iconfont icon-folder"></i>
       <i class="iconfont icon-cut"></i>
       <i class="iconfont icon-record"></i>
     </div>
-    <textarea v-model="msg"></textarea>
+    <textarea v-model="msg" @keydown.enter="keydown"></textarea>
     <div class="sendBtn">
       <el-button @click="send">发送</el-button>
     </div>
@@ -66,7 +66,16 @@
     methods: {
       init() {
       },
+      keydown(event) {
+        this.send();
+        event.preventDefault(); // 阻止浏览器默认换行操作
+        return false;
+      },
       send() {
+        if (!this.msg) {
+          this.$message.warning("消息不能为空");
+          return;
+        }
         let {chatId, chatType, toUsername, toUserId} = this.activeChat;
         if (toUsername === this.username) {
           toUsername = this.activeChat.fromUsername;
@@ -76,7 +85,7 @@
           chatId,
           chatType,
           msg: this.msg,
-          msgDate: new Date().getTime(),
+          createTime: new Date().getTime(),
           msgType: "1",
           toUsername,
           toUserId
