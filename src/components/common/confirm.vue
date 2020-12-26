@@ -9,8 +9,10 @@
     :width="dialogConfirm">
     <slot></slot>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="close">取消</el-button>
-      <el-button type="primary" @click="submit">确定</el-button>
+      <slot name="footer">
+        <el-button size="small" @click="close">取消</el-button>
+        <el-button size="small" type="primary" @click="submit">确定</el-button>
+      </slot>
     </div>
   </el-dialog>
 </template>

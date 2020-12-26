@@ -18,6 +18,9 @@
              v-if="['0','2','3','4'].includes(form.friendStatus)"
              @click="addFriend"></i>
         </template>
+        <template v-else>
+          <i class="iconfont icon-signout" title="退出" @click="signOutConfirm"></i>
+        </template>
       </el-form-item>
       <el-divider><i class="el-icon-monitor"></i></el-divider>
       <el-form-item label="用户名">
@@ -41,21 +44,31 @@
       </el-form-item>
     </el-form>
 
-    <el-dialog
+    <!--设置性别-->
+    <confirm
       title="性别"
-      width="420px"
-      :visible.sync="dialogVisible"
-      :append-to-body="true">
+      :visible="dialogVisible"
+      @close="dialogVisible=false"
+      @submit="submitSex">
       <el-radio-group v-model="sex">
         <el-radio label="1"><i class="iconfont icon-male"></i>男</el-radio>
         <el-radio label="2"><i class="iconfont icon-female"></i>女</el-radio>
         <el-radio label="0"><i class="iconfont icon-sex"></i>保密</el-radio>
       </el-radio-group>
-      <span slot="footer" class="dialog-footer">
-    <el-button size="small" @click="dialogVisible = false">取 消</el-button>
-    <el-button size="small" type="primary" @click="submitSex">确 定</el-button>
-  </span>
-    </el-dialog>
+    </confirm>
+
+    <!--退出确认-->
+    <confirm
+      :visible="signOutVisible"
+      @close="closeConfirmSignOut">
+      <div>
+        <p style="font-size: 16px">您确定要退出吗？</p>
+      </div>
+      <div slot="footer">
+        <el-button size="small" @click="closeConfirmSignOut">再想想</el-button>
+        <el-button size="small" type="primary" @click="signOut">退出</el-button>
+      </div>
+    </confirm>
   </div>
 </template>
 
@@ -65,13 +78,18 @@
   import apiUser from "@/api/user";
   import apiFriend from "@/api/friend";
   import {mapState, mapMutations, mapActions} from "vuex";
+  import confirm from "@common/confirm";
 
   export default {
     name: "user-info",
+    components: {
+      confirm
+    },
     data() {
       return {
         dialogVisible: false,
         sex: "0",
+        signOutVisible: false,
       };
     },
     computed: {
@@ -216,6 +234,21 @@
           }
         }).catch(e => {
         });
+      },
+      // 退出
+      signOut() {
+        apiUser.signOut().then(res => {
+          this.$router.push("/login");
+        }).catch(e => {
+        });
+      },
+      // 退出确认
+      signOutConfirm() {
+        this.signOutVisible = true;
+      },
+      // 关闭退出确认
+      closeConfirmSignOut() {
+        this.signOutVisible = false;
       },
       ...mapMutations(["changeUserInfo", "setPersonal"]),
       ...mapActions(["getFriendList"]),

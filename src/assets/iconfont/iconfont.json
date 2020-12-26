@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "10936696",
+      "name": "添加",
+      "font_class": "add-friend",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "7736357",
+      "name": "sign-out",
+      "font_class": "signout",
+      "unicode": "e914",
+      "unicode_decimal": 59668
+    },
+    {
       "icon_id": "1003098",
       "name": "dot",
       "font_class": "dot",
@@ -18,13 +32,6 @@
       "font_class": "friend",
       "unicode": "e629",
       "unicode_decimal": 58921
-    },
-    {
-      "icon_id": "13625333",
-      "name": "添加好友",
-      "font_class": "add-friend",
-      "unicode": "e618",
-      "unicode_decimal": 58904
     },
     {
       "icon_id": "1308374",

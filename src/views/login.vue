@@ -68,6 +68,7 @@
       init() {
         this.$socket.disconnect();
         storage.local.removeUser();
+        this.changeUserInfoVisible(false);
       },
       signInAction() {
         if (!this.signIn.username) return;
@@ -98,7 +99,7 @@
         this.$socket.disconnect();
         this.$socket.connect();
       },
-      ...mapMutations(["setPersonal"])
+      ...mapMutations(["setPersonal", "changeUserInfoVisible"])
     },
     created() {
     },
