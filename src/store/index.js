@@ -13,6 +13,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     theme: "", // 主题
+    activeTabName: "tab-chat",
     activeChat: {},
     chatList: [],
     msgList: [],
@@ -21,6 +22,7 @@ export default new Vuex.Store({
     userInfo: {}, // 查看用户的信息
     friendRequest: false, // 好友请求提示
     friendList: [], // 好友列表
+    msgTips: false, // 新消息提示
   },
   mutations: {
     [types.SET_THEME](state, theme) {
@@ -32,6 +34,10 @@ export default new Vuex.Store({
         value: theme
       });
       state.theme = themes.options.find(item => item.value === theme);
+    },
+    [types.SET_TAB_NAME](state, name) {
+      state.activeTabName = name || "tab-chat";
+      if (state.activeTabName === "tab-chat") state.msgTips = false;
     },
     [types.CHANGE_ACTIVE_CHAT](state, data) {
       data.tips = false;
@@ -102,6 +108,10 @@ export default new Vuex.Store({
     },
     [types.SET_FRIEND_LIST](state, list) {
       state.friendList = list || [];
+    },
+    [types.SET_MSG_TIPS](state, flag) {
+      if (flag && state.activeTabName === "tab-chat") return;
+      state.msgTips = flag;
     },
   },
   actions: {

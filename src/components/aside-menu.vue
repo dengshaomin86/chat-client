@@ -6,31 +6,26 @@
     <i class="iconfont"
        v-for="(item,idx) in tabList"
        :key="idx"
-       :class="{['icon-'+item.value]:true,'active':value===item.value}"
+       :class="{['icon-'+item.value]:true,'active':activeTabName===item.value}"
        :title="item.label"
-       @click="changeTab(item.value)">
+       @click="setTabName(item.value)">
       <i class="iconfont icon-dot" v-if="item.dot"></i>
     </i>
   </div>
 </template>
 
 <script>
-  import {mapState, mapActions} from "vuex";
+  import {mapState, mapActions, mapMutations} from "vuex";
 
   export default {
     name: "aside-menu",
-    props: {
-      value: {
-        type: String,
-        default: "",
-      }
-    },
     computed: {
       tabList() {
         return [
           {
             label: "聊天",
             value: "tab-chat",
+            dot: this.msgTips,
           },
           {
             label: "好友",
@@ -39,13 +34,11 @@
           }
         ];
       },
-      ...mapState(["friendRequest"]),
+      ...mapState(["friendRequest", "activeTabName", "msgTips"]),
     },
     methods: {
-      changeTab(name) {
-        this.$emit("input", name);
-      },
-      ...mapActions(["getUserInfo"])
+      ...mapActions(["getUserInfo"]),
+      ...mapMutations(["setTabName"])
     },
     mounted() {
     }

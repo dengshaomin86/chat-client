@@ -1,5 +1,6 @@
 export default {
   SET_THEME: "setTheme",
+  SET_TAB_NAME: "setTabName",
   CHANGE_ACTIVE_CHAT: "changeActiveChat",
   SET_CHAT_LIST: "setChatList",
   ADD_CHAT_LIST: "addChatList",
@@ -10,4 +11,5 @@ export default {
   CHANGE_USER_INFO_VISIBLE: "changeUserInfoVisible",
   CHANGE_FRIEND_REQUEST: "changeFriendRequest",
   SET_FRIEND_LIST: "setFriendList",
+  SET_MSG_TIPS: "setMsgTips",
 };

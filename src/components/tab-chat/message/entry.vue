@@ -39,13 +39,14 @@
       res: function (val) {
         // console.log("收到推送", val);
       },
-      // 收到消息
+      // 发送消息
       message: function (val) {
         this.updateMsgList([val]);
       },
-      // 发送成功响应
+      // 收到消息
       messageResponse: function (val) {
         this.updateMsgList([val]);
+        this.setMsgTips(true);
       },
       // 好友相关
       friendRelated: function (data) {
@@ -84,7 +85,7 @@
         this.$socket.emit(typeName, msg);
         this.msg = "";
       },
-      ...mapMutations(["updateMsgList", "changeFriendRequest"]),
+      ...mapMutations(["updateMsgList", "changeFriendRequest", "setMsgTips"]),
       ...mapActions(["getFriendList"])
     },
     mounted() {

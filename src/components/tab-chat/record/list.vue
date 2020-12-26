@@ -21,7 +21,7 @@
           <p class="time">{{renderDate(item.msgDate)}}</p>
         </div>
       </div>
-      <i class="tips" v-if="item.tips"></i>
+      <i class="iconfont icon-dot" v-if="item.tips"></i>
     </li>
   </ul>
 </template>
@@ -92,15 +92,12 @@
       &.active, &:hover {
         background-color: #ccc;
       }
-      .tips {
-        display: inline-block;
-        width: 8px;
-        height: 8px;
-        background-color: #ff914e;
-        border-radius: 100%;
+      .icon-dot {
         position: absolute;
-        right: 4px;
-        top: 4px;
+        right: 2px;
+        top: 2px;
+        font-size: 12px;
+        @include color-tips;
       }
       .avatar-con {
         width: 40px;

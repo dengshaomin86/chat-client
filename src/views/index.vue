@@ -1,9 +1,9 @@
 <template>
   <div class="container">
     <!--菜单栏-->
-    <asideMenu v-model="active"></asideMenu>
+    <asideMenu></asideMenu>
     <keep-alive>
-      <component :is="active"></component>
+      <component :is="activeTabName"></component>
     </keep-alive>
     <!--查看用户信息-->
     <el-drawer title=""
@@ -35,12 +35,10 @@
       userInfo,
     },
     data() {
-      return {
-        active: "tab-chat"
-      };
+      return {};
     },
     computed: {
-      ...mapState(["userInfoVisible", "userInfo"])
+      ...mapState(["userInfoVisible", "userInfo", "activeTabName"])
     },
     methods: {
       init() {
@@ -53,13 +51,13 @@
         const data = pick(this.userInfo, ["username", "userId"]);
         data.type = "1";
         apiChat.addChatList(data).then(res => {
-          this.active = "tab-chat";
+          this.setTabName("tab-chat");
           this.changeUserInfoVisible(false);
           this.addChatList(res.data.data);
         }).catch(() => {
         });
       },
-      ...mapMutations(["changeUserInfoVisible", "addChatList"])
+      ...mapMutations(["changeUserInfoVisible", "addChatList", "setTabName"])
     },
     mounted() {
       this.init();
