@@ -20,7 +20,7 @@
 <script>
   import {mapState, mapMutations} from "vuex";
   import {pick} from "lodash";
-  import api from "@/api";
+  import apiChat from "@/api/chat";
   import asideMenu from "@/components/aside-menu";
   import tabChat from "@/components/tab-chat";
   import tabFriend from "@/components/tab-friend";
@@ -52,7 +52,7 @@
       sendMsg() {
         const data = pick(this.userInfo, ["username", "userId"]);
         data.type = "1";
-        api.addChatList(data).then(res => {
+        apiChat.addChatList(data).then(res => {
           this.active = "tab-chat";
           this.changeUserInfoVisible(false);
           this.addChatList(res.data.data);

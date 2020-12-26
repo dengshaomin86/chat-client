@@ -31,7 +31,7 @@
 
 <script>
   import {mapState, mapActions, mapMutations} from "vuex";
-  import api from "@/api";
+  import apiChat from "@/api/chat";
   import moment from "moment";
 
   export default {
@@ -54,7 +54,7 @@
         deep: true,
         immediate: true,
         handler(n) {
-          if (n.length) this.scrollToView();
+          this.scrollToView();
         }
       }
     },
@@ -62,7 +62,7 @@
       getMsgList() {
         this.clearMsgList();
         if (!this.activeChat.chatId) return;
-        api.getMsgList({
+        apiChat.getMsgList({
           chatId: this.activeChat.chatId
         }).then(res => {
           this.updateMsgList(res.data.list);
@@ -71,6 +71,8 @@
       },
       scrollToView() {
         this.$nextTick(() => {
+          if (!this.msgList || !this.msgList.length) return;
+          if (!this.$refs.list) return;
           this.$refs.list.children[this.msgList.length - 1].scrollIntoView();
         });
       },
@@ -86,7 +88,10 @@
       },
       ...mapMutations(["updateMsgList", "clearMsgList"]),
       ...mapActions(["getUserInfo"])
-    }
+    },
+    activated() {
+      this.scrollToView();
+    },
   };
 </script>
 

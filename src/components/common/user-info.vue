@@ -64,7 +64,7 @@
   import qs from "qs";
   import apiUser from "@/api/user";
   import apiFriend from "@/api/friend";
-  import {mapState, mapMutations} from "vuex";
+  import {mapState, mapMutations, mapActions} from "vuex";
 
   export default {
     name: "user-info",
@@ -212,11 +212,13 @@
           this.$message.auto(r.data);
           if (r.data.flag) {
             this.$emit("close");
+            this.getFriendList();
           }
         }).catch(e => {
         });
       },
-      ...mapMutations(["changeUserInfo", "setPersonal"])
+      ...mapMutations(["changeUserInfo", "setPersonal"]),
+      ...mapActions(["getFriendList"]),
     },
     mounted() {
       this.init();

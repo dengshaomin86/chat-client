@@ -171,11 +171,12 @@
           if (!res.data.flag) return;
           item.friendStatus = res.data.friendStatus;
           item.friendStatusText = res.data.friendStatusText;
+          this.getFriendList();
         }).catch(e => {
         });
       },
-      ...mapMutations(["addChatList", "changeFriendRequest"]),
-      ...mapActions(["getChatList", "getUserInfo"])
+      ...mapMutations(["changeFriendRequest"]),
+      ...mapActions(["getUserInfo", "getFriendList"])
     },
     watch: {
       visibleAddReq(n, o) {

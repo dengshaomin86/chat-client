@@ -1,8 +1,9 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import types from "./mutation-types.js";
-import api from "@/api";
+import apiChat from "@/api/chat";
 import apiUser from "@/api/user";
+import apiFriend from "@/api/friend";
 import storage from "@/utils/storage";
 import {Message} from "element-ui";
 import themes from "@/utils/themes";
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     userInfoVisible: false,
     userInfo: {}, // 查看用户的信息
     friendRequest: false, // 好友请求提示
+    friendList: [], // 好友列表
   },
   mutations: {
     [types.SET_THEME](state, theme) {
@@ -35,7 +37,7 @@ export default new Vuex.Store({
       data.tips = false;
       state.activeChat = data;
     },
-    [types.GET_CHAT_LIST](state, data) {
+    [types.SET_CHAT_LIST](state, data) {
       state.chatList = data;
     },
     [types.ADD_CHAT_LIST](state, data) {
@@ -98,11 +100,14 @@ export default new Vuex.Store({
     [types.CHANGE_FRIEND_REQUEST](state, flag) {
       state.friendRequest = flag;
     },
+    [types.SET_FRIEND_LIST](state, list) {
+      state.friendList = list || [];
+    },
   },
   actions: {
-    [types.GET_CHAT_LIST]({commit}) {
-      api.getChatList().then(res => {
-        commit(types.GET_CHAT_LIST, res.data.list);
+    getChatList({commit}) {
+      apiChat.getChatList().then(res => {
+        commit(types.SET_CHAT_LIST, res.data.list);
       }).catch(e => {
       });
     },
@@ -114,6 +119,16 @@ export default new Vuex.Store({
           return;
         }
         commit(types.CHANGE_USER_INFO, res.data.data);
+      }).catch(e => {
+      });
+    },
+    getFriendList({commit}) {
+      apiFriend.list().then(r => {
+        if (!r.data.flag) {
+          Message.auto(r.data);
+          return;
+        }
+        commit(types.SET_FRIEND_LIST, r.data.list);
       }).catch(e => {
       });
     },

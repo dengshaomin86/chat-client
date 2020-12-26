@@ -19,7 +19,6 @@
 </template>
 
 <script>
-  import apiFriend from "@/api/friend";
   import {mapState, mapActions} from "vuex";
 
   export default {
@@ -31,26 +30,18 @@
       }
     },
     data() {
-      return {
-        list: [],
-      };
+      return {};
     },
     computed: {
       filterList() {
-        if (!this.list || !this.list.length) return [];
-        return this.list.filter(item => item.username.indexOf(this.keyword) !== -1);
+        if (!this.friendList || !this.friendList.length) return [];
+        return this.friendList.filter(item => item.username.indexOf(this.keyword) !== -1);
       },
-      ...mapState(["friendRequest"]),
+      ...mapState(["friendRequest", "friendList"]),
     },
     methods: {
       init() {
         this.getFriendList();
-      },
-      getFriendList() {
-        apiFriend.list().then(r => {
-          this.list = r.data.list;
-        }).catch(e => {
-        });
       },
       showUser(item) {
         this.getUserInfo(item.userId);
@@ -58,7 +49,7 @@
       showRequest() {
         this.$emit("showRequest");
       },
-      ...mapActions(["getUserInfo"])
+      ...mapActions(["getUserInfo", "getFriendList"])
     },
     mounted() {
       this.init();

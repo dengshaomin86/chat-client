@@ -14,7 +14,7 @@
 </template>
 
 <script>
-  import {mapState, mapMutations} from "vuex";
+  import {mapState, mapMutations, mapActions} from "vuex";
 
   export default {
     name: "entry",
@@ -39,16 +39,27 @@
       res: function (val) {
         // console.log("收到推送", val);
       },
+      // 收到消息
       message: function (val) {
-        // console.log("收到消息", val);
         this.updateMsgList([val]);
       },
+      // 发送成功响应
       messageResponse: function (val) {
-        // console.log("发送成功响应", val);
         this.updateMsgList([val]);
       },
-      friendRequest: function (val) {
-        this.changeFriendRequest(true);
+      // 好友相关
+      friendRelated: function (data) {
+        switch (data.type) {
+          case "request":
+            this.changeFriendRequest(true);
+            break;
+          case "agree":
+            this.getFriendList();
+            break;
+          case "remove":
+            this.getFriendList();
+            break;
+        }
       },
     },
     methods: {
@@ -73,7 +84,8 @@
         this.$socket.emit(typeName, msg);
         this.msg = "";
       },
-      ...mapMutations(["updateMsgList", "changeFriendRequest"])
+      ...mapMutations(["updateMsgList", "changeFriendRequest"]),
+      ...mapActions(["getFriendList"])
     },
     mounted() {
       this.init();
