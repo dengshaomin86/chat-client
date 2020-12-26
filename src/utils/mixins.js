@@ -3,6 +3,9 @@ import {mapState} from "vuex";
 
 export default {
   computed: {
+    baseURL() {
+      return process.env.VUE_APP_URL;
+    },
     ...mapState({
       username: state => state.personal.username,
       userId: state => state.personal.userId,

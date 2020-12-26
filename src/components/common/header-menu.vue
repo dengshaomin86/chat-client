@@ -11,6 +11,8 @@
 </template>
 
 <script>
+  import apiUser from "@/api/user";
+
   export default {
     name: "header-menu",
     props: {
@@ -21,10 +23,9 @@
     },
     methods: {
       signOut() {
-        axios.get("/user/signOut").then(res => {
+        apiUser.signOut().then(res => {
           this.$router.push("/login");
-        }).catch(err => {
-          console.log(err);
+        }).catch(e => {
         });
       }
     }

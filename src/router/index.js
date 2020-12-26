@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
-import axios from "@/utils/axios";
 import storage from "@/utils/storage";
+import api from "@/api";
 
 Vue.use(Router);
 
@@ -46,7 +46,9 @@ router.beforeEach((to, from, next) => {
 // 校验登录状态
 router.onReady(res => {
   if (pass.includes(res.path)) return;
-  axios.get("/checkOnline").then(() => {}).catch(() => {});
+  api.checkOnline().then(() => {
+  }).catch(() => {
+  });
 });
 
 export default router;

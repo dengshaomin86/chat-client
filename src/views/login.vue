@@ -44,6 +44,7 @@
 
 <script>
   import qs from "qs";
+  import apiUser from "@/api/user";
   import storage from "@/utils/storage";
   import {mapMutations} from "vuex";
 
@@ -71,25 +72,23 @@
       signInAction() {
         if (!this.signIn.username) return;
         // 使用 qs 库编码数据，以 application / x-www-form-urlencoded 格式发送数据
-        axios.post("/user/signIn", qs.stringify(this.signIn)).then(res => {
+        apiUser.signIn(qs.stringify(this.signIn)).then(res => {
           this.$message.auto(res.data);
           if (!res.data.flag) return;
           this.connectSocket();
           this.setPersonal(res.data.user);
           Object.assign(this.$data.signIn, this.$options.data().signIn);
           this.$router.push("/");
-        }).catch(err => {
-          console.log(err);
+        }).catch(e => {
         });
       },
       signUpAction() {
         if (!this.signUp.username) return;
-        axios.post("/user/signUp", qs.stringify(this.signUp)).then(res => {
-          this.$message[res.data.flag ? "success" : "error"](res.data.message);
+        apiUser.signUp(qs.stringify(this.signUp)).then(res => {
+          this.$message.auto(res.data);
           if (!res.data.flag) return;
           this.type = "signIn";
-        }).catch(err => {
-          console.log(err);
+        }).catch(e => {
         });
       },
       enter() {
