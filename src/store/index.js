@@ -70,6 +70,11 @@ export default new Vuex.Store({
         // 创建一条记录
         state.chatList.unshift(lastMsg);
       }
+
+      // 按最后编辑时间排序
+      state.chatList.sort((a, b) => {
+        return new Date(a.createTime).getTime() < new Date(b.createTime).getTime() ? 1 : -1;
+      });
     },
     [types.CLEAR_MSG_LIST](state) {
       state.msgList = [];
