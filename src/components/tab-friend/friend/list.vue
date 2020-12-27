@@ -12,7 +12,7 @@
         <div class="avatar-con" :data-i="item.avatar">
           <avatar shape="square" :size="40" :src="item.avatar"></avatar>
         </div>
-        <p class="name">{{item.nickname||item.username}}</p>
+        <p class="name">{{item.username}}</p>
       </li>
     </ul>
   </div>
