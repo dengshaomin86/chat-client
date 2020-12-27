@@ -49,9 +49,8 @@
       ...mapState(["activeChat", "chatList"])
     },
     filters: {
-      formatDate(data, pattern = "HH:mm") {
-        data = Number(data);
-        return moment(Number(data)).format(pattern);
+      formatDate(data) {
+        return moment(data).format("HH:mm");
       },
     },
     watch: {
@@ -66,10 +65,6 @@
     methods: {
       init() {
         this.getChatList();
-      },
-      renderDate(date) {
-        if (!date) return "";
-        return moment(date).format("HH:mm");
       },
       changeActiveChatAction(item) {
         this.changeActiveChat(item);

@@ -62,6 +62,11 @@
             break;
         }
       },
+      // 提示
+      tips: function (data) {
+        if (!data || !data.type || !data.text) return;
+        this.$message[data.type](data.text);
+      },
     },
     methods: {
       init() {
