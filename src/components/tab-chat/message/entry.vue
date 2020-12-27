@@ -81,19 +81,15 @@
           this.$message.warning("消息不能为空");
           return;
         }
-        let {chatId, chatType, toUsername, toUserId} = this.activeChat;
-        if (toUsername === this.username) {
-          toUsername = this.activeChat.fromUsername;
-          toUserId = this.activeChat.fromUserId;
-        }
+        const {chatId, chatType, withUsername, withUserId} = this.activeChat;
         const msg = {
           chatId,
           chatType,
           msg: this.msg,
           createTime: new Date().getTime(),
           msgType: "1",
-          toUsername,
-          toUserId
+          withUsername,
+          withUserId
         };
         const typeName = chatType === "1" ? "messageSingle" : "messageGroup";
         this.$socket.emit(typeName, msg);

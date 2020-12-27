@@ -1,6 +1,6 @@
 <template>
   <div class="message">
-    <headerMenu :name="activeChat.name"></headerMenu>
+    <headerMenu :name="activeChat.chatName"></headerMenu>
     <list></list>
     <entry></entry>
   </div>
