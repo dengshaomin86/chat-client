@@ -52,8 +52,10 @@
       ...mapActions(["getUserInfo", "getFriendList"])
     },
     mounted() {
+    },
+    activated() {
       this.init();
-    }
+    },
   };
 </script>
 
