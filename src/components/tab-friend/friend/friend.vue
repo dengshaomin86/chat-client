@@ -19,7 +19,7 @@
         </el-table-column>
         <el-table-column label="操作" width="100" align="center">
           <template slot-scope="scope" v-if="scope.row.username!==username">
-            <template v-if="scope.row.friendStatus==='0'">
+            <template v-if="['0', '4'].includes(scope.row.friendStatus)">
               <el-button @click="addFriend(scope.row)" type="text" icon="el-icon-plus">添加</el-button>
             </template>
             <span v-else>{{scope.row.friendStatusText}}</span>
@@ -58,7 +58,7 @@
 <script>
   import list from "./list";
   import search from "@common/search";
-  import api from "@/api";
+  import apiUser from "@/api/user";
   import apiFriend from "@/api/friend";
   import {mapActions, mapMutations} from "vuex";
 
@@ -105,12 +105,15 @@
       },
       // 搜索用户
       searchUser() {
-        const params = {
-          keyword: this.searchKeyword
-        };
         this.addBtnLoading = true;
-        api.searchUser(params).then(res => {
+        apiUser.search({
+          keyword: this.searchKeyword
+        }).then(res => {
           this.addBtnLoading = false;
+          if (!res.data.flag) {
+            this.$message.auto(res.data);
+            return;
+          }
           this.searchFriendTableData = res.data.list;
         }).catch(() => {
           this.addBtnLoading = false;
@@ -207,7 +210,7 @@
       }
 
       .search-con {
-        margin-bottom: 10px;
+        margin: 10px 0;
         display: flex;
         align-items: center;
         justify-content: space-between;

@@ -30,6 +30,12 @@ export default {
   getInfo(id) {
     return axios.get(`/user/info/${id}`);
   },
+  // 搜索用户
+  search(params) {
+    return axios.get("/user/search", {
+      params
+    });
+  },
   // 更改用户信息
   update(data) {
     return axios.post("/user/update", data);
