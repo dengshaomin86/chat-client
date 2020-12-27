@@ -95,7 +95,7 @@
           toUsername,
           toUserId
         };
-        const typeName = chatType === "1" ? "message" : "messageGroup";
+        const typeName = chatType === "1" ? "messageSingle" : "messageGroup";
         this.$socket.emit(typeName, msg);
         this.msg = "";
       },

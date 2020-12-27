@@ -74,15 +74,21 @@
       // 获取群组消息记录
       getGroupRecord() {
         apiChat.getGroupRecord(this.activeChat.chatId).then(res => {
+          if (!res.data.flag) {
+            this.$message.auto(res.data);
+            return;
+          }
           this.updateMsgList(res.data.list);
         }).catch(e => {
         });
       },
       // 获取单聊消息记录
       getSingleRecord() {
-        apiChat.getMsgList({
-          chatId: this.activeChat.chatId
-        }).then(res => {
+        apiChat.getSingleRecord(this.activeChat.chatId).then(res => {
+          if (!res.data.flag) {
+            this.$message.auto(res.data);
+            return;
+          }
           this.updateMsgList(res.data.list);
         }).catch(e => {
         });

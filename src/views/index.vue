@@ -49,8 +49,7 @@
       // 发消息
       sendMsg() {
         const data = pick(this.userInfo, ["username", "userId"]);
-        data.type = "1";
-        apiChat.addChatList(data).then(res => {
+        apiChat.send(data).then(res => {
           this.setTabName("tab-chat");
           this.changeUserInfoVisible(false);
           this.addChatList(res.data.data);

@@ -4,12 +4,12 @@
         v-for="(item,idx) in filterList"
         :key="idx"
         @click="changeActiveChatAction(item)">
-      <div class="avatar-con" :data-i="item.avatar">
-        <avatar shape="square" :size="40" :src="item.avatar"></avatar>
+      <div class="avatar-con">
+        <avatar shape="square" :size="40" :src="item.chatAvatar"></avatar>
       </div>
       <div class="record-msg">
         <div class="l">
-          <p class="name">{{item.name}}</p>
+          <p class="name">{{item.chatName}}</p>
           <p class="content">
             <template v-if="item.chatType==='2'">
               {{item.fromUsername}}：
@@ -44,12 +44,13 @@
     computed: {
       filterList() {
         if (!this.chatList || !this.chatList.length) return [];
-        return this.chatList.filter(item => item.name.indexOf(this.keyword) !== -1);
+        return this.chatList.filter(item => item.chatName.indexOf(this.keyword) !== -1);
       },
       ...mapState(["activeChat", "chatList"])
     },
     filters: {
       formatDate(data) {
+        if (!data) return "";
         return moment(data).format("HH:mm");
       },
     },

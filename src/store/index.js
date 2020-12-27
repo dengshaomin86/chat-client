@@ -53,7 +53,7 @@ export default new Vuex.Store({
       state.activeChat = data;
     },
     [types.UPDATE_MSG_LIST](state, data) {
-      if (!data.length) return;
+      if (!data || !data.length) return;
       if (data[0].chatId === state.activeChat.chatId) {
         // 如果是当前对话则更新上去
         state.msgList.push(...data);
@@ -63,8 +63,6 @@ export default new Vuex.Store({
       const chatObjIndex = state.chatList.findIndex(item => item.chatId === data[0].chatId);
       const lastMsg = data[data.length - 1];
       lastMsg.tips = data[0].chatId !== state.activeChat.chatId;
-      lastMsg.name = lastMsg.fromUsername === storage.local.get("username") ? lastMsg.toUsername : lastMsg.fromUsername;
-      if (lastMsg.chatType === "2") lastMsg.name = "默认群聊";
       if (chatObjIndex !== -1) {
         // 更新最新消息，红点显示
         state.chatList.splice(chatObjIndex, 1, lastMsg);
