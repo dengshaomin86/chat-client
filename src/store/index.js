@@ -63,6 +63,7 @@ export default new Vuex.Store({
       const chatObjIndex = state.chatList.findIndex(item => item.chatId === data[0].chatId);
       const lastMsg = data[data.length - 1];
       lastMsg.tips = data[0].chatId !== state.activeChat.chatId;
+      lastMsg.editTime = lastMsg.createTime;
       if (chatObjIndex !== -1) {
         // 更新最新消息，红点显示
         state.chatList.splice(chatObjIndex, 1, lastMsg);
@@ -73,7 +74,7 @@ export default new Vuex.Store({
 
       // 按最后编辑时间排序
       state.chatList.sort((a, b) => {
-        return new Date(a.createTime).getTime() < new Date(b.createTime).getTime() ? 1 : -1;
+        return new Date(a.editTime).getTime() < new Date(b.editTime).getTime() ? 1 : -1;
       });
     },
     [types.CLEAR_MSG_LIST](state) {
