@@ -157,8 +157,7 @@
             return;
           }
           const params = {
-            toUsername: item.username,
-            toUserId: item.userId,
+            friendUserId: item.userId,
             msg: value
           };
           apiFriend.add(params).then(res => {

@@ -28,14 +28,14 @@
       </el-table>
     </el-dialog>
 
-    <el-dialog title="好友请求"
+    <el-dialog title="好友申请"
                :visible.sync="visibleAddReq"
                width="30%"
                :before-close="handleCloseAddReq">
       <el-table :data="addReqTableData"
                 border
                 style="width: 100%">
-        <el-table-column prop="username"
+        <el-table-column prop="friendUsername"
                          label="用户名">
         </el-table-column>
         <el-table-column prop="msg"
@@ -132,8 +132,7 @@
             return;
           }
           const params = {
-            toUsername: item.username,
-            toUserId: item.userId,
+            friendUserId: item.userId,
             msg: value
           };
           apiFriend.add(params).then(res => {
@@ -154,8 +153,7 @@
       // 拒绝好友请求
       refuse(item) {
         apiFriend.refuse({
-          toUserId: item.userId,
-          toUsername: item.username,
+          friendUserId: item.friendUserId,
         }).then(res => {
           this.$message.auto(res.data);
           if (!res.data.flag) return;
@@ -167,8 +165,7 @@
       // 同意好友请求
       agree(item) {
         apiFriend.agree({
-          toUserId: item.userId,
-          toUsername: item.username,
+          friendUserId: item.friendUserId,
         }).then(res => {
           this.$message.auto(res.data);
           if (!res.data.flag) return;
