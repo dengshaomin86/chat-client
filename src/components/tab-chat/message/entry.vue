@@ -67,13 +67,16 @@
         if (!data || !data.type || !data.text) return;
         this.$message[data.type](data.text);
       },
-      // 创建群聊推送
+      // 群聊相关信息推送
       group: function (data) {
         this.getChatList();
 
         switch (data.type) {
           case "joinRoom":
             if (data.groupId) this.$socket.emit("joinRoom", data.groupId);
+            break;
+          case "leaveRoom":
+            if (data.groupId) this.$socket.emit("leaveRoom", data.groupId);
             break;
         }
       },

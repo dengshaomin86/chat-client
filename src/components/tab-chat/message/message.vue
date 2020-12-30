@@ -1,6 +1,6 @@
 <template>
   <div class="message">
-    <headerMenu :name="activeChat.chatName"></headerMenu>
+    <headerMenu :name="activeChat.chatName" :menu="menu"></headerMenu>
     <list></list>
     <entry></entry>
   </div>
@@ -23,10 +23,16 @@
       return {};
     },
     computed: {
+      menu() {
+        if (!this.activeChat.chatId) return null;
+        return {
+          type: "chat",
+          data: this.activeChat
+        };
+      },
       ...mapState(["activeChat"])
     },
-    methods: {
-    }
+    methods: {}
   };
 </script>
 

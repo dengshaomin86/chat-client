@@ -71,7 +71,7 @@
             break;
         }
       },
-      // 获取群组消息记录
+      // 获取群聊消息记录
       getGroupRecord() {
         apiChat.getGroupRecord(this.activeChat.chatId).then(res => {
           if (!res.data.flag) {

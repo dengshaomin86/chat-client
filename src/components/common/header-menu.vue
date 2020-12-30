@@ -1,33 +1,55 @@
 <template>
   <div class="header-menu">
     <p>{{name||""}}</p>
-    <el-dropdown trigger="click">
-      <i class="el-icon-more"></i>
-      <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item icon="el-icon-thumb" @click.native="signOut">退出</el-dropdown-item>
-      </el-dropdown-menu>
-    </el-dropdown>
+    <i class="el-icon-more" v-if="menu" @click="showDrawer"></i>
+    <groupInfo ref="groupInfo"></groupInfo>
   </div>
 </template>
 
 <script>
-  import apiUser from "@/api/user";
+  import groupInfo from "@common/group-info";
 
   export default {
     name: "header-menu",
+    components: {
+      groupInfo
+    },
     props: {
       name: {
         type: String,
         default: "",
-      }
+      },
+      menu: {
+        type: Object,
+        default: null
+      },
+    },
+    data() {
+      return {
+        visible: false,
+      };
     },
     methods: {
-      signOut() {
-        apiUser.signOut().then(res => {
-          this.$router.push("/login");
-        }).catch(e => {
-        });
-      }
+      showDrawer() {
+        this.visible = true;
+        switch (this.menu.type) {
+          case "chat":
+            this.getInfo(this.menu.data);
+            break;
+        }
+      },
+      getInfo(data) {
+        switch (data.chatType) {
+          case "1":
+            break;
+          case "2":
+            this.$refs.groupInfo.init(data.chatId);
+            break;
+        }
+      },
+      handleClose() {
+        this.visible = false;
+      },
     }
   };
 </script>
@@ -43,7 +65,12 @@
     flex: 0 0 60px;
     font-size: 18px;
     .el-icon-more {
-      cursor: pointer;
+      font-size: 16px;
+      transition: $transition;
+      &:hover {
+        cursor: pointer;
+        @include color-active;
+      }
     }
   }
 

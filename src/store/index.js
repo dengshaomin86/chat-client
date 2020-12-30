@@ -45,6 +45,7 @@ export default new Vuex.Store({
     },
     [types.SET_CHAT_LIST](state, data) {
       state.chatList = data;
+      if (state.activeChat) state.activeChat = data.find(item => item.chatId === state.activeChat.chatId) || {};
     },
     [types.ADD_CHAT_LIST](state, data) {
       const idx = state.chatList.findIndex(item => item.chatId === data.chatId);
