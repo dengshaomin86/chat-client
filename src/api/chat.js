@@ -6,6 +6,11 @@ export default {
     return axios.get("/chat/list");
   },
 
+  // 删除会话
+  chatRemove(chatId) {
+    return axios.delete(`/chat/remove/${chatId}`);
+  },
+
   // 发起会话
   send(params) {
     return axios.get("/single/send", {

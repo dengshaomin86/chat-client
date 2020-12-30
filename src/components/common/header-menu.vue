@@ -1,13 +1,22 @@
 <template>
   <div class="header-menu">
     <p>{{name||""}}</p>
-    <i class="el-icon-more" v-if="menu" @click="showDrawer"></i>
+    <i class="el-icon-more" v-if="menu&&menu.enable" @click="showDrawer"></i>
+    <el-dropdown trigger="click" v-else>
+      <i class="el-icon-more"></i>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item @click.native="removeChat">删除会话</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
+
     <groupInfo ref="groupInfo"></groupInfo>
   </div>
 </template>
 
 <script>
+  import {mapState, mapActions} from "vuex";
   import groupInfo from "@common/group-info";
+  import apiChat from "@/api/chat";
 
   export default {
     name: "header-menu",
@@ -28,6 +37,9 @@
       return {
         visible: false,
       };
+    },
+    computed: {
+      ...mapState(["activeChat"])
     },
     methods: {
       showDrawer() {
@@ -50,6 +62,16 @@
       handleClose() {
         this.visible = false;
       },
+      // 删除会话
+      removeChat() {
+        apiChat.chatRemove(this.activeChat.chatId).then(r => {
+          this.$message.auto(r.data);
+          if (!r.data.flag) return;
+          this.getChatList();
+        }).catch(e => {
+        });
+      },
+      ...mapActions(["getChatList"]),
     }
   };
 </script>

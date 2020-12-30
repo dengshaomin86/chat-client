@@ -75,11 +75,10 @@
       // 获取群聊消息记录
       getGroupRecord() {
         apiChat.getGroupRecord(this.activeChat.chatId).then(res => {
-          if (!res.data.flag) {
-            this.$message.auto(res.data);
-            return;
-          }
-          this.updateMsgList(res.data.list);
+          if (!res.data.flag) return this.$message.auto(res.data);
+          const {list, enable} = res.data;
+          this.updateMsgList(list);
+          this.$emit("enable", enable);
         }).catch(e => {
         });
       },

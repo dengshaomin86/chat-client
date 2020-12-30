@@ -1,7 +1,7 @@
 <template>
   <div class="message">
     <headerMenu :name="activeChat.chatName" :menu="menu"></headerMenu>
-    <list></list>
+    <list @enable="setEnable"></list>
     <entry></entry>
   </div>
 </template>
@@ -20,19 +20,26 @@
       headerMenu,
     },
     data() {
-      return {};
+      return {
+        enable: false, // 是否可展示菜单信息
+      };
     },
     computed: {
       menu() {
         if (!this.activeChat.chatId) return null;
         return {
           type: "chat",
+          enable: this.enable,
           data: this.activeChat
         };
       },
       ...mapState(["activeChat"])
     },
-    methods: {}
+    methods: {
+      setEnable(flag) {
+        this.enable = flag;
+      },
+    }
   };
 </script>
 
