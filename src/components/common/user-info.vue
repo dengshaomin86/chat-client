@@ -24,23 +24,33 @@
       </el-form-item>
       <el-divider><i class="el-icon-monitor"></i></el-divider>
       <el-form-item label="用户名">
-        <span>{{form.username}}</span>
-        <i class="iconfont" v-bind="sexAttrs" @click="editSex"></i>
+        <div class="el-form-item-content">
+          <span>{{form.username}}</span>
+          <i class="iconfont" v-bind="sexAttrs" @click="editSex"></i>
+        </div>
       </el-form-item>
       <el-form-item label="昵称">
-        <span>{{form.nickname||"-"}}</span>
-        <i class="iconfont icon-edit" v-if="isSelf" @click="edit('昵称', 'nickname')"></i>
+        <div class="el-form-item-content">
+          <span>{{form.nickname||"-"}}</span>
+          <i class="iconfont icon-edit" v-if="isSelf" @click="edit('昵称', 'nickname')"></i>
+        </div>
       </el-form-item>
       <el-form-item label="爱好">
-        <span>{{form.hobby||"-"}}</span>
-        <i class="iconfont icon-edit" v-if="isSelf" @click="edit('爱好', 'hobby')"></i>
+        <div class="el-form-item-content">
+          <span>{{form.hobby||"-"}}</span>
+          <i class="iconfont icon-edit" v-if="isSelf" @click="edit('爱好', 'hobby')"></i>
+        </div>
       </el-form-item>
       <el-form-item label="个性签名">
-        <span>{{form.signature||"-"}}</span>
-        <i class="iconfont icon-edit" v-if="isSelf" @click="edit('个性签名', 'signature')"></i>
+        <div class="el-form-item-content">
+          <span>{{form.signature||"-"}}</span>
+          <i class="iconfont icon-edit" v-if="isSelf" @click="edit('个性签名', 'signature')"></i>
+        </div>
       </el-form-item>
       <el-form-item label="加入时间">
-        <span>{{form.createDate|formatDate}}</span>
+        <div class="el-form-item-content">
+          <span>{{form.createDate|formatDate}}</span>
+        </div>
       </el-form-item>
     </el-form>
 
@@ -273,9 +283,17 @@
 
       .el-form-item {
         font-size: 18px;
+        .avatar {
+          box-shadow: 1px 2px 8px 0 #666;
+        }
         &:not(:first-of-type) {
+          .el-form-item-content {
+            display: flex;
+            align-items: flex-start;
+          }
           span {
             vertical-align: middle;
+            word-break: break-all;
             + .iconfont {
               margin-left: 15px;
               font-size: 18px;

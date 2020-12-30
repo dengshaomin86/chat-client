@@ -8,7 +8,7 @@
       <div class="msg-con">
         <div class="container" v-if="item.fromUsername===username">
           <div class="content">
-            <p>{{item.msg}}</p>
+            <div v-html="item.msg"></div>
           </div>
         </div>
 
@@ -21,7 +21,7 @@
             <p class="username">{{item.fromUsername}}</p>
           </template>
           <div class="content">
-            <p>{{item.msg}}</p>
+            <div v-html="item.msg"></div>
           </div>
         </div>
       </div>
