@@ -47,7 +47,8 @@
         deep: true,
         immediate: true,
         handler(n) {
-          if (n.chatId) this.getMsgList();
+          if (!n.chatId) return this.clearMsgList();
+          this.getMsgList();
         }
       },
       msgList: {

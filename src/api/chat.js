@@ -47,4 +47,14 @@ export default {
   groupAppend(data) {
     return axios.patch("/group/append", data);
   },
+
+  // 退出群聊
+  groupQuit(data) {
+    return axios.patch("/group/quit", data);
+  },
+
+  // 解散群聊
+  groupDisband(groupId) {
+    return axios.delete(`/group/disband/${groupId}`);
+  },
 };

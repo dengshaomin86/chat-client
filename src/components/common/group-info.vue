@@ -5,7 +5,7 @@
              :append-to-body="true"
              :visible.sync="visible"
              :before-close="handleClose">
-    <div class="group-info-wrapper">
+    <div class="group-info-wrapper" v-if="group&&group.groupId">
       <el-form label-width="80px">
         <el-form-item label="群名称">
           <span>{{group.groupName}}</span>
@@ -31,8 +31,8 @@
           </ul>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" v-if="group.master===userId">解散群聊</el-button>
-          <el-button type="primary" v-else>退出群聊</el-button>
+          <el-button type="primary" v-if="group.master===userId" @click="disband">解散群聊</el-button>
+          <el-button type="primary" v-else @click="quit">退出群聊</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -147,9 +147,56 @@
       appendSuccess(data) {
         this.group = data;
       },
+      // 退出群聊
+      quit() {
+        this.$confirm("您确定要退出群聊吗？", "提示", {
+          dangerouslyUseHTMLString: true,
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }).then(() => {
+          apiChat.groupQuit({
+            groupId: this.group.groupId,
+          }).then(r => {
+            this.$message.auto(r.data);
+            if (!r.data.flag) return;
+            this.getChatList();
+            this.handleClose();
+          }).catch(e => {
+          });
+        }).catch(e => {
+        });
+      },
+      // 解散群聊
+      disband() {
+        this.$confirm("您确定要解散群聊吗？", "提示", {
+          dangerouslyUseHTMLString: true,
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }).then(() => {
+          this.$socket.emit("messageGroup", {
+            chatId: this.group.groupId,
+            chatType: "2",
+            msg: "群聊已解散",
+            msgType: "2",
+            createTime: new Date().getTime(),
+          });
+
+          apiChat.groupDisband(this.group.groupId).then(r => {
+            this.$message.auto(r.data);
+            if (!r.data.flag) return;
+            this.getChatList();
+            this.handleClose();
+          }).catch(e => {
+          });
+        }).catch(e => {
+        });
+      },
       // 关闭
       handleClose() {
         this.visible = false;
+        this.group = {};
       },
       ...mapActions(["getUserInfo", "getChatList"]),
     }
