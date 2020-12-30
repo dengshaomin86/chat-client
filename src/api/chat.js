@@ -3,7 +3,7 @@ import axios from "@/utils/axios";
 export default {
   // 获取聊天列表
   getChatList() {
-    return axios.request("/chat/list");
+    return axios.get("/chat/list");
   },
 
   // 发起会话
@@ -21,5 +21,10 @@ export default {
   // 获取群组消息记录
   getGroupRecord(groupId) {
     return axios.get(`/group/record/${groupId}`);
+  },
+
+  // 创建群组
+  createGroup(data) {
+    return axios.post("/group/create", data);
   },
 };

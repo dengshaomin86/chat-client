@@ -190,6 +190,7 @@
 <style scoped lang="scss">
   .friend {
     height: 100%;
+    overflow: hidden;
     background-color: #ddd;
   }
 

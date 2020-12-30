@@ -67,6 +67,16 @@
         if (!data || !data.type || !data.text) return;
         this.$message[data.type](data.text);
       },
+      // 创建群聊推送
+      group: function (data) {
+        this.getChatList();
+
+        switch (data.type) {
+          case "joinRoom":
+            if (data.groupId) this.$socket.emit("joinRoom", data.groupId);
+            break;
+        }
+      },
     },
     methods: {
       init() {
@@ -96,7 +106,7 @@
         this.msg = "";
       },
       ...mapMutations(["updateMsgList", "changeFriendRequest", "setMsgTips"]),
-      ...mapActions(["getFriendList"])
+      ...mapActions(["getFriendList", "getChatList"])
     },
     mounted() {
       this.init();
