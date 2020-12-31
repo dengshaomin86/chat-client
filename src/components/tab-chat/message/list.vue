@@ -1,30 +1,10 @@
 <template>
   <ul class="list" ref="list">
-    <li v-for="(item, idx) in msgList"
-        :key="idx" :class="{'r':item.fromUsername===username}">
+    <li v-for="(item, idx) in msgList" :key="idx">
       <div class="msg-date" v-show="showDate(item.createTime, idx)">
         <p>{{formatDate(item.createTime)}}</p>
       </div>
-      <div class="msg-con">
-        <div class="container" v-if="item.fromUsername===username">
-          <div class="content">
-            <div v-html="item.msg"></div>
-          </div>
-        </div>
-
-        <div class="avatar-con" @click="viewUser(item)">
-          <avatar shape="square" :size="40" :src="item.fromUserAvatar"></avatar>
-        </div>
-
-        <div class="container" v-if="item.fromUsername!==username">
-          <template v-if="item.chatType==='2'">
-            <p class="username">{{item.fromUsername}}</p>
-          </template>
-          <div class="content">
-            <div v-html="item.msg"></div>
-          </div>
-        </div>
-      </div>
+      <components :is="'type'+item.msgType" :item="item" @scrollToView="scrollToView"></components>
     </li>
   </ul>
 </template>
@@ -33,9 +13,19 @@
   import {mapState, mapActions, mapMutations} from "vuex";
   import apiChat from "@/api/chat";
   import moment from "moment";
+  import type1 from "./types/type1";
+  import type2 from "./types/type2";
+  import type3 from "./types/type3";
+  import type4 from "./types/type4";
 
   export default {
     name: "list",
+    components: {
+      type1,
+      type2,
+      type3,
+      type4,
+    },
     data() {
       return {};
     },
@@ -139,8 +129,6 @@
     padding: 10px 30px;
     margin: 0;
     li {
-      margin-bottom: 10px;
-
       .msg-date {
         text-align: center;
         p {
@@ -150,72 +138,6 @@
           padding: 3px 6px;
           color: #fff;
           border-radius: 4px;
-        }
-      }
-
-      .msg-con {
-        display: flex;
-        align-items: flex-start;
-      }
-
-      .avatar-con {
-        width: 40px;
-        height: 40px;
-        flex: 0 0 40px;
-        margin-right: 10px;
-        cursor: pointer;
-        img {
-          width: 100%;
-          height: 100%;
-        }
-      }
-      .container {
-        max-width: 60%;
-
-        .username {
-          font-size: 12px;
-          color: #999;
-          margin-bottom: 6px;
-        }
-
-        .content {
-          background-color: #fff;
-          padding: 10px;
-          position: relative;
-          word-break: break-all;
-          border-radius: 0 50px 50px 50px;
-
-          &:before {
-            content: "";
-            display: none;
-            border: 5px solid;
-            border-color: transparent #fff transparent transparent;
-            position: absolute;
-            top: 16px;
-            left: -10px;
-          }
-        }
-      }
-
-      &.r {
-        .msg-con {
-          display: flex;
-          justify-content: flex-end;
-        }
-        .avatar-con {
-          margin-right: 0;
-          margin-left: 10px;
-        }
-        .content {
-          background-color: $rightBg;
-          border-radius: 50px 0 50px 50px;
-          &:before {
-            border-color: transparent transparent transparent $rightBg;
-            position: absolute;
-            top: 16px;
-            left: auto;
-            right: -10px;
-          }
         }
       }
     }

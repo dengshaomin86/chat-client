@@ -9,4 +9,8 @@ export default {
   uploadImg(data) {
     return axios.post("/uploadImg", data);
   },
+  // 文件上传
+  uploadFile(data) {
+    return axios.post("/uploadFile", data);
+  },
 };

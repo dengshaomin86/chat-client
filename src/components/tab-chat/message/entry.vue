@@ -1,8 +1,8 @@
 <template>
   <div class="entry" v-if="activeChat.chatId">
     <div class="opt">
-      <i class="iconfont icon-img"></i>
-      <i class="iconfont icon-folder"></i>
+      <i class="iconfont icon-emotion"></i>
+      <i class="iconfont icon-folder" @click="upload"></i>
       <i class="iconfont icon-cut"></i>
       <i class="iconfont icon-record"></i>
     </div>
@@ -10,14 +10,19 @@
     <div class="sendBtn">
       <el-button @click="send">发送</el-button>
     </div>
+    <uploadFile ref="uploadFile" @preview="preview" @success="uploadFileSuccess"></uploadFile>
   </div>
 </template>
 
 <script>
   import {mapState, mapMutations, mapActions} from "vuex";
+  import uploadFile from "@common/upload-file";
 
   export default {
     name: "entry",
+    components: {
+      uploadFile,
+    },
     data() {
       return {
         msg: ""
@@ -89,24 +94,34 @@
         event.preventDefault(); // 阻止浏览器默认换行操作
         return false;
       },
-      send() {
-        if (!this.msg) {
-          this.$message.warning("消息不能为空");
-          return;
-        }
+      send(msg = null, msgType = null) {
+        msg = msg || this.msg;
+        msgType = msgType || "1";
+        if (!msg) return this.$message.warning("消息不能为空");
         const {chatId, chatType, withUsername, withUserId} = this.activeChat;
-        const msg = {
+        const content = {
           chatId,
           chatType,
-          msg: this.msg,
+          msg,
+          msgType,
           createTime: new Date().getTime(),
-          msgType: "1",
           withUsername,
           withUserId
         };
         const typeName = chatType === "1" ? "messageSingle" : "messageGroup";
-        this.$socket.emit(typeName, msg);
+        this.$socket.emit(typeName, content);
         this.msg = "";
+      },
+      upload() {
+        this.$refs.uploadFile.init();
+      },
+      // 预览
+      preview(src) {
+        // console.log(src);
+      },
+      uploadFileSuccess({url, type}) {
+        console.log(url, type);
+        this.send(url, type);
       },
       ...mapMutations(["updateMsgList", "changeFriendRequest", "setMsgTips"]),
       ...mapActions(["getFriendList", "getChatList"])
