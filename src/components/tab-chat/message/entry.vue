@@ -120,7 +120,6 @@
         // console.log(src);
       },
       uploadFileSuccess({url, type}) {
-        console.log(url, type);
         this.send(url, type);
       },
       ...mapMutations(["updateMsgList", "changeFriendRequest", "setMsgTips"]),

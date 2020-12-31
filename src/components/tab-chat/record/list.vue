@@ -14,7 +14,7 @@
             <template v-if="item.chatType==='2'">
               {{item.fromUsername}}：
             </template>
-            {{item.msg}}
+            {{item|msg}}
           </p>
         </div>
         <div class="r">
@@ -52,6 +52,11 @@
       formatDate(data) {
         if (!data) return "";
         return moment(data).format("HH:mm");
+      },
+      msg(item) {
+        if (item.msgType === "3") return "[图片]";
+        if (item.msgType === "4") return "[文件]";
+        return item.msg;
       },
     },
     watch: {
