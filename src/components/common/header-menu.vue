@@ -1,13 +1,15 @@
 <template>
   <div class="header-menu">
     <p>{{name||""}}</p>
-    <i class="el-icon-more" v-if="menu&&menu.enable" @click="showDrawer"></i>
-    <el-dropdown trigger="click" v-else>
-      <i class="el-icon-more"></i>
-      <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item @click.native="removeChat">删除会话</el-dropdown-item>
-      </el-dropdown-menu>
-    </el-dropdown>
+    <template v-if="menu">
+      <i class="el-icon-more" v-if="menu.enable" @click="showDrawer"></i>
+      <el-dropdown trigger="click" v-else>
+        <i class="el-icon-more"></i>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item @click.native="removeChat">删除会话</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+    </template>
 
     <groupInfo ref="groupInfo"></groupInfo>
   </div>
@@ -86,9 +88,13 @@
     border-bottom: 1px solid #ccc;
     flex: 0 0 60px;
     font-size: 18px;
+    .el-dropdown {
+      font-size: 0;
+    }
     .el-icon-more {
       font-size: 16px;
       transition: $transition;
+      @include font-color;
       &:hover {
         cursor: pointer;
         @include color-active;

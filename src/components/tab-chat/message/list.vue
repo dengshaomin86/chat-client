@@ -90,6 +90,7 @@
             return;
           }
           this.updateMsgList(res.data.list);
+          this.$emit("enable", false);
         }).catch(e => {
         });
       },

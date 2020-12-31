@@ -57,7 +57,7 @@
     }
 
     .entry {
-      flex: 0 0 160px;
+      flex: 0 0 200px;
     }
   }
 
