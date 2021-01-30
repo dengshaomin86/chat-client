@@ -33,6 +33,7 @@
     },
     methods: {
       init() {
+        console.log(1);
         this.setTheme(storage.local.get("theme"));
         this.setPersonal(storage.local.get("data_user"));
       },
