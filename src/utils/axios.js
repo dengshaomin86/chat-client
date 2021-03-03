@@ -29,6 +29,7 @@ $axios.interceptors.response.use((response) => {
     router.push("/login");
     return Promise.reject(response);
   }
+  CancelToken.remove(response); // 删除请求成功的 cancelToken
   return response;
 }, (error) => {
   // 对响应错误做点什么
