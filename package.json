@@ -1,5 +1,5 @@
 {
-  "name": "chat-client",
+  "name": "chat",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
+    "compression-webpack-plugin": "^6.1.1",
     "core-js": "^3.6.4",
     "element-theme-chalk": "^2.13.1",
     "element-ui": "^2.13.1",

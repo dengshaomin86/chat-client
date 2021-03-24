@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :style="style">
     <router-view/>
   </div>
 </template>
@@ -9,6 +9,11 @@
   import storage from "@/utils/storage";
 
   export default {
+    data() {
+      return {
+        style: {},
+      };
+    },
     sockets: {
       // connect(data) {
       //   console.log("已连接", data);
@@ -35,6 +40,17 @@
       init() {
         this.setTheme(storage.local.get("theme"));
         this.setPersonal(storage.local.get("data_user"));
+        this.setBackground();
+      },
+      setBackground() {
+        const img = new Image();
+        const src = require("@/assets/images/bg/02.jpg");
+        img.src = src;
+        img.onload = () => {
+          this.style = {
+            backgroundImage: `url(${src})`,
+          };
+        };
       },
       ...mapMutations(["setTheme", "setPersonal"])
     },
@@ -46,5 +62,12 @@
 
 <style lang="scss">
   @import "assets/scss/global";
+
+  #app {
+    background-color: rgb(64 158 255);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+  }
 
 </style>
