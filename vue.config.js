@@ -45,6 +45,6 @@ module.exports = {
   devServer: {
     // 解决不能用 ip 访问
     disableHostCheck: true,
-    // proxy: "http://139.9.50.13:3000/"
+    proxy: "http://139.9.50.13:3000/"
   }
 };
