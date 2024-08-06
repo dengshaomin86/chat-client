@@ -33,8 +33,8 @@ export default {
   },
   computed: {
     list() {
-      let arr = [];
-      for (let item of Object.keys(emojis).slice(72, 72 + 300)) {
+      const arr = [];
+      for (const item of Object.keys(emojis).slice(72, 72 + 300)) {
         arr.push({ code: `&#x${item};`, id: item, label: emojis[item] });
       }
       return arr;
