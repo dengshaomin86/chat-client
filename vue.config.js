@@ -6,8 +6,10 @@ const resolve = dir => {
 };
 
 module.exports = {
-  outputDir: "dist/ROOT",
-  publicPath: "./",
+  // outputDir: "dist/ROOT",
+  // publicPath: "./",
+  outputDir: "docs",
+  publicPath: "/chat-client",
   chainWebpack: config => {
     // 设置别名
     config.resolve.alias

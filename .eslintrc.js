@@ -22,14 +22,14 @@ module.exports = {
     "spaced-comment": [0, "never"],
     "no-unreachable": [0, "never"],
     indent: 0,
-    "comma-dangle": ["error", {
+    "comma-dangle": [0, {
       arrays: "never",
       objects: "ignore",
       imports: "never",
       exports: "never",
       functions: "ignore"
     }],
-    "object-curly-spacing": ["error", "never"], // 解构赋值和导入/导出说明符
+    "object-curly-spacing": [0, "never"], // 解构赋值和导入/导出说明符
   },
   globals: {
     axios: true
