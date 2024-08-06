@@ -51,4 +51,9 @@ router.onReady(res => {
   });
 });
 
+const originaPush = Router.prototype.push;
+Router.prototype.push = function push(location) {
+  return originaPush.call(this, location).catch((err) => err);
+};
+
 export default router;

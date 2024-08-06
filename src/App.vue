@@ -40,18 +40,18 @@
       init() {
         this.setTheme(storage.local.get("theme"));
         this.setPersonal(storage.local.get("data_user"));
-        this.setBackground();
+        // this.setBackground();
       },
-      setBackground() {
-        const img = new Image();
-        const src = require("@/assets/images/bg/02.jpg");
-        img.src = src;
-        img.onload = () => {
-          this.style = {
-            backgroundImage: `url(${src})`,
-          };
-        };
-      },
+      // setBackground() {
+      //   const img = new Image();
+      //   const src = require("@/assets/images/bg/02.jpg");
+      //   img.src = src;
+      //   img.onload = () => {
+      //     this.style = {
+      //       backgroundImage: `url(${src})`,
+      //     };
+      //   };
+      // },
       ...mapMutations(["setTheme", "setPersonal"])
     },
     mounted() {
@@ -64,6 +64,7 @@
   @import "assets/scss/global";
 
   #app {
+    background:  linear-gradient(to right top, rgb(255, 217, 0) 30%, rgb(16, 141, 224));
     background-color: rgb(64 158 255);
     background-repeat: no-repeat;
     background-position: center center;
