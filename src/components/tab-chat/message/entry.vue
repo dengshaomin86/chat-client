@@ -11,7 +11,7 @@
       <el-button @click="send">发送</el-button>
     </div>
     <uploadFile ref="uploadFile" @preview="preview" @success="uploadFileSuccess"></uploadFile>
-    <emoji ref="emoji" :visible="emojiVisible" @update:visible="emojiVisible=$event"></emoji>
+    <emoji ref="emoji" :visible="emojiVisible" @update:visible="emojiVisible=$event" @append="appendEmoji"></emoji>
   </div>
 </template>
 
@@ -128,6 +128,9 @@
       },
       changeEmojiVisible() {
         this.emojiVisible = !this.emojiVisible;
+      },
+      appendEmoji(emoji) {
+        this.msg += emoji;
       },
       ...mapMutations(["updateMsgList", "changeFriendRequest", "setMsgTips"]),
       ...mapActions(["getFriendList", "getChatList"])
