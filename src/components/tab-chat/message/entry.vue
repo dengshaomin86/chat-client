@@ -3,7 +3,7 @@
     <div class="opt">
       <i class="iconfont icon-emotion" title="表情" @click.stop="changeEmojiVisible"></i>
       <i class="iconfont icon-folder" title="文件" @click="upload"></i>
-      <i class="iconfont icon-cut" title="截图"></i>
+      <!-- <i class="iconfont icon-cut" title="截图"></i> -->
       <i class="iconfont icon-record" title="记录"></i>
     </div>
     <textarea v-model="msg" @keydown.enter="keydown"></textarea>

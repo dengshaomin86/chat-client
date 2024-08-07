@@ -11,7 +11,7 @@
           <el-form-item>
             <el-input v-model="signIn.password" placeholder="password" clearable maxLength="16" type="password" show-password></el-input>
             <div class="tips">
-              <a>forget?</a>
+              <a @click="err">forget?</a>
             </div>
           </el-form-item>
           <el-form-item>
@@ -98,6 +98,9 @@
       connectSocket() {
         this.$socket.disconnect();
         this.$socket.connect();
+      },
+      err() {
+        this.$message.error('暂未开放');
       },
       ...mapMutations(["setPersonal", "changeUserInfoVisible"])
     },

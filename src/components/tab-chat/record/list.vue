@@ -14,7 +14,7 @@
             <template v-if="item.chatType==='2'">
               {{item.fromUsername}}：
             </template>
-            {{item|msg}}
+            <span v-html="$options.filters.msg(item)"></span>
           </p>
         </div>
         <div class="r">

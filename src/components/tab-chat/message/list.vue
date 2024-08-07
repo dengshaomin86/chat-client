@@ -131,6 +131,7 @@
     li {
       .msg-date {
         text-align: center;
+        margin-bottom: 8px;
         p {
           background-color: #cdcdcd;
           display: inline-block;
