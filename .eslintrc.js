@@ -21,6 +21,7 @@ module.exports = {
     "space-before-function-paren": 0,
     "spaced-comment": [0, "never"],
     "no-unreachable": [0, "never"],
+    "handle-callback-err": [0, "never"],
     indent: 0,
     "comma-dangle": [0, {
       arrays: "never",
