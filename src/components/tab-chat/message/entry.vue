@@ -1,31 +1,35 @@
 <template>
   <div class="entry" v-if="activeChat.chatId">
     <div class="opt">
-      <i class="iconfont icon-emotion"></i>
-      <i class="iconfont icon-folder" @click="upload"></i>
-      <i class="iconfont icon-cut"></i>
-      <i class="iconfont icon-record"></i>
+      <i class="iconfont icon-emotion" title="表情" @click.stop="changeEmojiVisible"></i>
+      <i class="iconfont icon-folder" title="文件" @click="upload"></i>
+      <i class="iconfont icon-cut" title="截图"></i>
+      <i class="iconfont icon-record" title="记录"></i>
     </div>
     <textarea v-model="msg" @keydown.enter="keydown"></textarea>
     <div class="sendBtn">
       <el-button @click="send">发送</el-button>
     </div>
     <uploadFile ref="uploadFile" @preview="preview" @success="uploadFileSuccess"></uploadFile>
+    <emoji ref="emoji" :visible="emojiVisible" @update:visible="emojiVisible=$event"></emoji>
   </div>
 </template>
 
 <script>
   import {mapState, mapMutations, mapActions} from "vuex";
   import uploadFile from "@common/upload-file";
+  import emoji from "@/components/emoji";
 
   export default {
     name: "entry",
     components: {
       uploadFile,
+      emoji,
     },
     data() {
       return {
-        msg: ""
+        msg: "",
+        emojiVisible: false,
       };
     },
     computed: {
@@ -121,6 +125,9 @@
       },
       uploadFileSuccess({url, type}) {
         this.send(url, type);
+      },
+      changeEmojiVisible() {
+        this.emojiVisible = !this.emojiVisible;
       },
       ...mapMutations(["updateMsgList", "changeFriendRequest", "setMsgTips"]),
       ...mapActions(["getFriendList", "getChatList"])
